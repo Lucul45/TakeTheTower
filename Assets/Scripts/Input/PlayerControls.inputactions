@@ -102,6 +102,17 @@
                 },
                 {
                     "name": "",
+                    "id": "d491b188-9437-4b66-978c-739d16480e5c",
+                    "path": "<Joystick>/stick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "a4bf2b9f-c45f-416d-8b03-248c4efc59fa",
                     "path": "<Keyboard>/j",
                     "interactions": "",
@@ -115,6 +126,17 @@
                     "name": "",
                     "id": "74920506-62d8-46b5-b6e3-2b46de330c91",
                     "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4dc56546-0ea2-49fe-b7cb-7b456d672a1a",
+                    "path": "<Joystick>/trigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
@@ -143,6 +165,17 @@
                     "action": "Parry",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4fb1b676-96e4-42f6-8910-f767fd8438fe",
+                    "path": "<HID::QANBA USA, LLC Qanba Drone 2 Arcade Joystick>/button6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Parry",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
@@ -153,7 +186,7 @@
             "bindingGroup": "Keyboard",
             "devices": [
                 {
-                    "devicePath": "<Keyboard>/{Menu}",
+                    "devicePath": "<Keyboard>",
                     "isOptional": false,
                     "isOR": false
                 }
@@ -165,6 +198,11 @@
             "devices": [
                 {
                     "devicePath": "<Gamepad>",
+                    "isOptional": true,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Joystick>",
                     "isOptional": true,
                     "isOR": false
                 }

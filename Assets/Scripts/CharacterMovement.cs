@@ -11,7 +11,8 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float _playerSpeed = 10f;
 
     private Vector2 _movementInput = Vector2.zero;
-    private bool _attacking = false;
+    private bool _attack = false;
+    private bool _isAttacking = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,9 +24,11 @@ public class CharacterMovement : MonoBehaviour
     {
         Move(_movementInput);
 
-        if (_attacking)
+        if (_attack && !_isAttacking)
         {
+            _isAttacking = true;
             Debug.Log("ATTACK");
+            _isAttacking = false;
         }
     }
 
@@ -41,6 +44,6 @@ public class CharacterMovement : MonoBehaviour
 
     public void GetAttackInput(InputAction.CallbackContext context)
     {
-        _attacking = context.action.IsPressed();
+        _attack = context.action.IsPressed();
     }
 }
