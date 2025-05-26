@@ -7,16 +7,20 @@ public class IdleState : APlayerState
     public override void Enter()
     {
         _stateManager.AttackPressed += Attack;
+        _stateManager.CanAttack = true;
     }
 
     public override void Exit()
     {
+        _stateManager.CanAttack = false;
         _stateManager.AttackPressed -= Attack;
     }
 
-    public override void Init(PlayerStateMachineManager stateManager, Animator animator)
+    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer)
     {
         _stateManager = stateManager;
+        _animator = animator;
+        _spriteRenderer = spriteRenderer;
     }
 
     public override void Update()
@@ -29,6 +33,6 @@ public class IdleState : APlayerState
 
     private void Attack()
     {
-        _stateManager.ChangeState(EPlayerState.ATTACK1);
+        _stateManager.ChangeState(EPlayerState.MELEE);
     }
 }

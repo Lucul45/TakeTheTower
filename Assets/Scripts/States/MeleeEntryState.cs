@@ -15,7 +15,7 @@ public class MeleeEntryState : APlayerState
         
     }
 
-    public override void Init(PlayerStateMachineManager stateManager, Animator animator)
+    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer)
     {
         
     }

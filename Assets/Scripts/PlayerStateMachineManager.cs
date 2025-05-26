@@ -23,14 +23,16 @@ public class PlayerStateMachineManager : MonoBehaviour
 
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private Animator _animator;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private Sprite[] _attack1CanCombo;
+    [SerializeField] private Sprite[] _attack2CanCombo;
     private float _fixedTime = 0f;
-    private float _pressTime = 0f;
 
     [SerializeField] private float _playerSpeed = 10f;
 
     private Vector2 _movementInput = Vector2.zero;
     private bool _attack = false;
-    private bool _hold = false;
+    private bool _canAttack = true;
     private PlayerControls _controls;
 
     private event Action _attackPressed = null;
@@ -51,6 +53,20 @@ public class PlayerStateMachineManager : MonoBehaviour
             return _states[_currentState];
         }
     }
+    public Sprite[] Attack1CanCombo
+    {
+        get
+        {
+            return _attack1CanCombo;
+        }
+    }
+    public Sprite[] Attack2CanCombo
+    {
+        get
+        {
+            return _attack2CanCombo;
+        }
+    }
     public Vector2 MovementInput
     {
         get { return _movementInput; }
@@ -59,6 +75,11 @@ public class PlayerStateMachineManager : MonoBehaviour
     {
         get { return _attack; }
         set { _attack = value; }
+    }
+    public bool CanAttack
+    {
+        get { return _canAttack; }
+        set { _canAttack = value; }
     }
     public float FixedTime
     {
@@ -69,9 +90,6 @@ public class PlayerStateMachineManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _controls = new PlayerControls();
-        _controls.Player.Attack.performed += OnAttackInput;
-        //_controls.Player.Attack.canceled += OnAttackReleased;
         _states = new Dictionary<EPlayerState, APlayerState>();
         _states.Add(EPlayerState.IDLE, new IdleState());
         _states.Add(EPlayerState.MOVE, new MoveState());
@@ -81,7 +99,7 @@ public class PlayerStateMachineManager : MonoBehaviour
         _states.Add(EPlayerState.ATTACK3, new Attack3State());
         foreach (KeyValuePair<EPlayerState, APlayerState> state in _states)
         {
-            state.Value.Init(this, _animator);
+            state.Value.Init(this, _animator, _spriteRenderer);
         }
         _currentState = EPlayerState.IDLE;
         CurrentState.Enter();
@@ -93,7 +111,6 @@ public class PlayerStateMachineManager : MonoBehaviour
         FixedTime += Time.deltaTime;
         CurrentState.Update();
         _animator.SetFloat("Speed", _rb.velocity.x);
-        //Debug.Log(Attack);
     }
 
     public void ChangeState(EPlayerState nextState)
@@ -111,8 +128,7 @@ public class PlayerStateMachineManager : MonoBehaviour
 
     public void GetAttackInput(InputAction.CallbackContext context)
     {
-        //_attack = context.action.performed;
-        if (_attackPressed != null)
+        if (_attackPressed != null && CanAttack)
         {
             _attackPressed();
         }
@@ -122,17 +138,5 @@ public class PlayerStateMachineManager : MonoBehaviour
     public void Move(Vector2 dir)
     {
         _rb.velocity = new Vector2(dir.x * _playerSpeed, 0);
-    }
-
-    public void OnAttackInput(InputAction.CallbackContext context)
-    {
-        _attack = true;
-    }
-
-    public void OnAttackReleased(InputAction.CallbackContext context)
-    {
-        _attack = false;
-    }
-
-    
+    }    
 }

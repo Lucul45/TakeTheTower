@@ -6,8 +6,9 @@ public abstract class APlayerState
 {
     protected PlayerStateMachineManager _stateManager;
     protected Animator _animator;
+    protected SpriteRenderer _spriteRenderer;
 
-    public abstract void Init(PlayerStateMachineManager stateManager, Animator animator);
+    public abstract void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer);
 
     public abstract void Enter();
 

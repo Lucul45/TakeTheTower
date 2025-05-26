@@ -6,17 +6,21 @@ public class MoveState : APlayerState
 {
     public override void Enter()
     {
-        
+        _stateManager.AttackPressed += Attack;
+        _stateManager.CanAttack = true;
     }
 
     public override void Exit()
     {
-        
+        _stateManager.CanAttack = false;
+        _stateManager.AttackPressed -= Attack;
     }
 
-    public override void Init(PlayerStateMachineManager stateManager, Animator animator)
+    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer)
     {
         _stateManager = stateManager;
+        _animator = animator;
+        _spriteRenderer = spriteRenderer;
     }
 
     public override void Update()
@@ -25,12 +29,12 @@ public class MoveState : APlayerState
         {
             _stateManager.ChangeState(EPlayerState.IDLE);
         }
-        if (_stateManager.Attack)
-        {
-            _stateManager.Attack = false;
-            _stateManager.ChangeState(EPlayerState.ATTACK1);
-        }
 
         _stateManager.Move(_stateManager.MovementInput);
+    }
+
+    private void Attack()
+    {
+        _stateManager.ChangeState(EPlayerState.MELEE);
     }
 }

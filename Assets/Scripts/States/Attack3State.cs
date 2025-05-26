@@ -6,8 +6,8 @@ public class Attack3State : MeleeBaseState
 {
     public override void Enter()
     {
-        _attackIndex = 3;
-        _duration = 0.75f;
+        //_attackIndex = 3;
+        //_duration = 0.75f;
         _animator.SetBool("IsAttacking3", true);
     }
 
@@ -19,10 +19,11 @@ public class Attack3State : MeleeBaseState
         _stateManager.FixedTime = 0;
     }
 
-    public override void Init(PlayerStateMachineManager stateManager, Animator animator)
+    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer)
     {
         _stateManager = stateManager;
         _animator = animator;
+        _spriteRenderer = spriteRenderer;
     }
 
     public override void Update()

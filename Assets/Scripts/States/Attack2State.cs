@@ -6,14 +6,14 @@ public class Attack2State : MeleeBaseState
 {
     public override void Enter()
     {
-        _attackIndex = 2;
-        _duration = 0.5f;
+        //_attackIndex = 2;
+        //_duration = 0.5f;
         _animator.SetBool("IsAttacking2", true);
     }
 
     public override void Exit()
     {
-        if (!_shouldCombo)
+        //if (!_shouldCombo)
         {
             _animator.SetBool("IsAttacking1", false);
             _animator.SetBool("IsAttacking2", false);
@@ -21,16 +21,17 @@ public class Attack2State : MeleeBaseState
         _stateManager.FixedTime = 0;
     }
 
-    public override void Init(PlayerStateMachineManager stateManager, Animator animator)
+    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer)
     {
         _stateManager = stateManager;
         _animator = animator;
+        _spriteRenderer = spriteRenderer;
     }
 
     public override void Update()
     {
         _stateManager.Move(Vector2.zero);
-        if (_stateManager.FixedTime >= _duration)
+        /*if (_stateManager.FixedTime >= _duration)
         {
             if (_shouldCombo)
             {
@@ -47,6 +48,6 @@ public class Attack2State : MeleeBaseState
                     _stateManager.ChangeState(EPlayerState.MOVE);
                 }
             }
-        }
+        }*/
     }
 }

@@ -142,6 +142,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 216382335144830490}
   _animator: {fileID: 1875955441753283811}
+  _spriteRenderer: {fileID: 37026037613520414}
+  _attack1CanCombo:
+  - {fileID: 21300000, guid: 1828b2482b53f7141a3722e7f492a938, type: 3}
+  - {fileID: 21300000, guid: 19c26ce930bc5504f8dc1aff6b8bed1c, type: 3}
+  - {fileID: 21300000, guid: 56a72869fa2a92d43a0d68181ac59ea9, type: 3}
+  _attack2CanCombo:
+  - {fileID: 21300000, guid: 6dcafd3fecc93174594706fdb0cc3522, type: 3}
+  - {fileID: 21300000, guid: e4d6fffd05bc9dc479d9a35ab34b0ac4, type: 3}
+  - {fileID: 21300000, guid: 1edcfb3d4d8a0074b8e469cbc5360f9b, type: 3}
   _playerSpeed: 5
 --- !u!1 &7770802639889903698
 GameObject:

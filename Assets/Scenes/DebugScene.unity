@@ -847,6 +847,10 @@ PrefabInstance:
       propertyPath: m_NeverAutoSwitchControlSchemes
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1902538222313046845, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: _spritesCanCombo.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3555388760170741894, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_Name
       value: Player

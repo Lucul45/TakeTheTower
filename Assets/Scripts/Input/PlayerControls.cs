@@ -51,7 +51,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""id"": ""28492de0-b4f5-4d0e-971a-1b33d9664fc0"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 }
             ],
@@ -124,17 +124,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""d491b188-9437-4b66-978c-739d16480e5c"",
-                    ""path"": ""<Joystick>/stick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Controller"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""a4bf2b9f-c45f-416d-8b03-248c4efc59fa"",
                     ""path"": ""<Keyboard>/j"",
                     ""interactions"": """",
@@ -157,17 +146,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""4dc56546-0ea2-49fe-b7cb-7b456d672a1a"",
-                    ""path"": ""<Joystick>/trigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Controller"",
-                    ""action"": ""Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""0fe1f9cd-3d9c-4920-92eb-fca88c3a89c7"",
                     ""path"": ""<Keyboard>/k"",
                     ""interactions"": """",
@@ -181,17 +159,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""5aeedf89-e923-47b1-84e0-13141d967db9"",
                     ""path"": ""<Gamepad>/rightShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Controller"",
-                    ""action"": ""Parry"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4fb1b676-96e4-42f6-8910-f767fd8438fe"",
-                    ""path"": ""<HID::QANBA USA, LLC Qanba Drone 2 Arcade Joystick>/button6"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
