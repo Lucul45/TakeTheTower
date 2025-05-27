@@ -126,6 +126,7 @@ public class PlayerStateMachineManager : MonoBehaviour
         FixedTime += Time.deltaTime;
         CurrentState.Update();
         _animator.SetFloat("Speed", _rb.velocity.x);
+        //Debug.Log(CanAttack);
     }
 
     public void ChangeState(EPlayerState nextState)
@@ -143,7 +144,7 @@ public class PlayerStateMachineManager : MonoBehaviour
 
     public void GetAttackInput(InputAction.CallbackContext context)
     {
-        if (_attackPressed != null && CanAttack)
+        if (_attackPressed != null && context.started)
         {
             Debug.Log("ATK");
             _attackPressed();
@@ -153,7 +154,7 @@ public class PlayerStateMachineManager : MonoBehaviour
 
     public void GetParryInput(InputAction.CallbackContext context)
     {
-        if (_parryPressed != null && CanParry)
+        if (_parryPressed != null && context.started)
         {
             Debug.Log("PARRY");
             _parryPressed();

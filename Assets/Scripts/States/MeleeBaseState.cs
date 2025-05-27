@@ -10,7 +10,7 @@ public class MeleeBaseState : APlayerState
 
     public override void Enter()
     {
-        switch (_attackIndex)
+        /*switch (_attackIndex)
         {
             case 1:
                 _animator.SetBool("IsAttacking1", true);
@@ -22,6 +22,19 @@ public class MeleeBaseState : APlayerState
             case 3:
                 _animator.SetBool("IsAttacking3", true);
                 break;
+        }*/
+        if (_attackIndex == 1)
+        {
+            _animator.SetBool("IsAttacking1", true);
+            Debug.Log("Play Attack 1");
+        }
+        if (_attackIndex == 2)
+        {
+            _animator.SetBool("IsAttacking2", true);
+        }
+        if (_attackIndex == 3)
+        {
+            _animator.SetBool("IsAttacking3", true);
         }
         _stateManager.AttackPressed += Attack;
         //set hitbox attack
@@ -46,7 +59,6 @@ public class MeleeBaseState : APlayerState
         //Debug.Log(_attackIndex);
         if (_stateManager.Attack1CanCombo.Contains<Sprite>(_spriteRenderer.sprite) || _stateManager.Attack2CanCombo.Contains<Sprite>(_spriteRenderer.sprite))
         {
-            _stateManager.CanAttack = true;
             _shouldCombo = true;
         }
         if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
@@ -71,7 +83,6 @@ public class MeleeBaseState : APlayerState
         if (_shouldCombo)
         {
             _attackIndex++;
-            _stateManager.CanAttack = false;
             _stateManager.ChangeState(EPlayerState.MELEE);
         }
     }

@@ -33,13 +33,11 @@ public class IdleState : APlayerState
 
     private void Attack()
     {
-        _stateManager.CanAttack = false;
         _stateManager.ChangeState(EPlayerState.MELEE);
     }
 
     private void Parry()
     {
-        _stateManager.CanParry = false;
         _stateManager.ChangeState(EPlayerState.PARRY);
     }
 }
