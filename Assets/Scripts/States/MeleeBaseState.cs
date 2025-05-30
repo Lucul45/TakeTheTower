@@ -62,11 +62,16 @@ public class MeleeBaseState : APlayerState
         {
             _shouldCombo = true;
         }
-        if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+        if (_animator.GetBool("IsAttacking" + _attackIndex) && _animator.GetCurrentAnimatorStateInfo(0).IsName("Attack" + _attackIndex))
         {
-            //Debug.Log("Reset");
-            ResetCombo();
-            _stateManager.ChangeState(EPlayerState.IDLE);
+            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f && !_animator.IsInTransition(0))
+            {
+                Debug.Log("Reset");
+                ResetCombo();
+
+                _stateManager.ChangeState(EPlayerState.IDLE);
+            }
+            
         }
     }
 

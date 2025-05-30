@@ -192,4 +192,9 @@ public class PlayerStateMachineManager : MonoBehaviour
         Vector2 recorded = _rb.velocity;    
         return recorded;
     }
+
+    public void StartDash()
+    {
+        //StartCoroutine(_states[EPlayerState.DASH]);
+    }
 }

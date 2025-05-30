@@ -25,10 +25,13 @@ public class ParryState : APlayerState
     public override void Update()
     {
         _stateManager.Move(Vector2.zero);
-        if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+        if (_animator.GetBool("IsParrying") && _animator.GetCurrentAnimatorStateInfo(0).IsName("Parry"))
         {
-            _stateManager.CanParry = true;
-            _stateManager.ChangeState(EPlayerState.IDLE);
+            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+            {
+                _stateManager.CanParry = true;
+                _stateManager.ChangeState(EPlayerState.IDLE);
+            }
         }
     }
 }
