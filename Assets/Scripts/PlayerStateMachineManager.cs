@@ -26,8 +26,7 @@ public class PlayerStateMachineManager : MonoBehaviour
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private Animator _animator;
     [SerializeField] private SpriteRenderer _spriteRenderer;
-    [SerializeField] private Sprite[] _attack1CanCombo;
-    [SerializeField] private Sprite[] _attack2CanCombo;
+    [SerializeField] private AttackData[] _attacksData;
     private float _fixedTime = 0f;
 
     [SerializeField] private float _playerSpeed = 10f;
@@ -88,18 +87,11 @@ public class PlayerStateMachineManager : MonoBehaviour
             return _states[_currentState];
         }
     }
-    public Sprite[] Attack1CanCombo
+    public AttackData[] AttacksData
     {
         get
         {
-            return _attack1CanCombo;
-        }
-    }
-    public Sprite[] Attack2CanCombo
-    {
-        get
-        {
-            return _attack2CanCombo;
+            return _attacksData;
         }
     }
     public Vector2 MovementInput

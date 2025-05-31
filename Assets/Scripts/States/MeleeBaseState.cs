@@ -7,21 +7,18 @@ public class MeleeBaseState : APlayerState
 {
     private bool _shouldCombo = false;
     private int _attackIndex = 1;
-
+    private AttackData _attackData;
     public override void Enter()
     {
-        switch (_attackIndex)
+        foreach (AttackData a in _stateManager.AttacksData)
         {
-            case 1:
-                _animator.SetBool("IsAttacking1", true);
-                break;
-            case 2:
-                _animator.SetBool("IsAttacking2", true);
-                break;
-            case 3:
-                _animator.SetBool("IsAttacking3", true);
-                break;
+            if (a.AttackID == _attackIndex)
+            {
+                _attackData = a;
+            }
         }
+        Debug.Log(_attackData.ToString());
+        _animator.SetBool(_attackData.AnimatorCondition, true);
         _stateManager.AttackPressed += Attack;
     }
 
@@ -41,11 +38,11 @@ public class MeleeBaseState : APlayerState
     public override void Update()
     {
         _stateManager.Move(Vector2.zero);
-        if (_stateManager.Attack1CanCombo.Contains<Sprite>(_spriteRenderer.sprite) || _stateManager.Attack2CanCombo.Contains<Sprite>(_spriteRenderer.sprite))
+        if (_attackData.CanComboFrames.Contains<Sprite>(_spriteRenderer.sprite))
         {
             _shouldCombo = true;
         }
-        if (_animator.GetBool("IsAttacking" + _attackIndex) && _animator.GetCurrentAnimatorStateInfo(0).IsName("Attack" + _attackIndex))
+        if (_animator.GetBool(_attackData.AnimatorCondition) && _animator.GetCurrentAnimatorStateInfo(0).IsName(_attackData.AnimationName))
         {
             if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f && !_animator.IsInTransition(0))
             {
@@ -80,7 +77,7 @@ public class MeleeBaseState : APlayerState
 
     private void Attack()
     {
-        if (_shouldCombo)
+        if (_shouldCombo && _attackIndex < 3)
         {
             _attackIndex++;
             _stateManager.ChangeState(EPlayerState.MELEE);

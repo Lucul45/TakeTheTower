@@ -6,8 +6,6 @@ public class PlayerDamageManager : MonoBehaviour
 {
     private PlayerStateMachineManager _stateMachineManager;
     [SerializeField] private HealthBar _healthBar;
-    [SerializeField] private Collider2D _attackHitbox;
-    [SerializeField] private List<Collider2D> _hurtboxes;
 
     private int _maxHealth = 100;
     private int _currentHealth = 100;

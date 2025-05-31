@@ -249,12 +249,10 @@ MonoBehaviour:
   _rb: {fileID: 216382335144830490}
   _animator: {fileID: 1875955441753283811}
   _spriteRenderer: {fileID: 37026037613520414}
-  _attack1CanCombo:
-  - {fileID: 21300000, guid: 1828b2482b53f7141a3722e7f492a938, type: 3}
-  - {fileID: 21300000, guid: 19c26ce930bc5504f8dc1aff6b8bed1c, type: 3}
-  _attack2CanCombo:
-  - {fileID: 21300000, guid: 6dcafd3fecc93174594706fdb0cc3522, type: 3}
-  - {fileID: 21300000, guid: e4d6fffd05bc9dc479d9a35ab34b0ac4, type: 3}
+  _attacksData:
+  - {fileID: 11400000, guid: 92e91e8ad5cf16e429e3469e55cc9303, type: 2}
+  - {fileID: 11400000, guid: e434ac1d6181a0944836db519a03c621, type: 2}
+  - {fileID: 11400000, guid: bb0cbbcfd07077a49afa4124532183c7, type: 2}
   _playerSpeed: 5
   _dashForce: 10
   _dashCooldown: 1
@@ -272,8 +270,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthBar: {fileID: 0}
-  _attackHitbox: {fileID: 5184936694353638530}
-  _hurtboxes: []
 --- !u!1 &7770802639889903698
 GameObject:
   m_ObjectHideFlags: 0
