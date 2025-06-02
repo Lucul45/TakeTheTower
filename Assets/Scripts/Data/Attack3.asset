@@ -21,3 +21,4 @@ MonoBehaviour:
   _canComboFrames:
   - {fileID: 21300000, guid: 3990c11b415a6344e91066f1cf774185, type: 3}
   - {fileID: 21300000, guid: 7476feed19187fc4e83f90eed3310911, type: 3}
+  _endFrame: {fileID: 21300000, guid: 6f0350ba59ff78a479044199019af776, type: 3}

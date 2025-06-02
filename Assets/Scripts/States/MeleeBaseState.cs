@@ -42,23 +42,14 @@ public class MeleeBaseState : APlayerState
         {
             _shouldCombo = true;
         }
+        else
+        {
+            _shouldCombo = false;
+        }
         if (_animator.GetBool(_stateManager.CurrentAttack.AnimatorCondition) && _animator.GetCurrentAnimatorStateInfo(0).IsName(_stateManager.CurrentAttack.AnimationName))
         {
             if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f && !_animator.IsInTransition(0))
             {
-                float cooldown = 0f;
-                switch (_attackIndex)
-                {
-                    case 1:
-                        cooldown = 1f;
-                        break;
-                    case 2:
-                        cooldown = 2f;
-                        break;
-                    case 3:
-                        cooldown = 3f;
-                        break;
-                }
                 ResetCombo();
                 _stateManager.ChangeState(EPlayerState.IDLE);
             }

@@ -23,11 +23,13 @@ public class PlayerStateMachineManager : MonoBehaviour
     private Dictionary<EPlayerState, APlayerState> _states = null;
     private EPlayerState _currentState;
 
+    [Header("Refs")]
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private Animator _animator;
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private AttackData[] _attacksData;
     [SerializeField] private GameObject _hitbox;
+    [SerializeField] private DashBar _dashBar;
     private GameObject _otherPlayer;
 
     private float _fixedTime = 0f;
@@ -137,7 +139,14 @@ public class PlayerStateMachineManager : MonoBehaviour
         get { return _isHurt; }
         set { _isHurt = value; }
     }
-
+    public float DashTime
+    {
+        get { return _dashTime; }
+    }
+    public float DashCooldown
+    {
+        get { return _dashCooldown; }
+    }
     public bool CanDash
     {
         get { return _canDash; }
@@ -154,7 +163,7 @@ public class PlayerStateMachineManager : MonoBehaviour
         _states = new Dictionary<EPlayerState, APlayerState>();
         _states.Add(EPlayerState.IDLE, new IdleState());
         _states.Add(EPlayerState.MOVE, new MoveState());
-        _states.Add(EPlayerState.MELEEENTRY, new MeleeEntryState());
+        _states.Add(EPlayerState.THROW, new ThrowState());
         _states.Add(EPlayerState.MELEE, new MeleeBaseState());
         _states.Add(EPlayerState.PARRY, new ParryState());
         _states.Add(EPlayerState.DASH, new DashState());
@@ -207,8 +216,10 @@ public class PlayerStateMachineManager : MonoBehaviour
 
     public void GetDashInput(InputAction.CallbackContext context)
     {
+        //Debug.Log("input");
         if (_dashPressed != null && context.started)
         {
+            //Debug.Log("DASH");
             _dashPressed();
         }
     }
@@ -235,6 +246,7 @@ public class PlayerStateMachineManager : MonoBehaviour
         {
             _rb.velocity = new Vector2(RecordInput().normalized.x * _dashForce, 0);
         }
+        SetDashCooldown();
         yield return new WaitForSeconds(_dashTime);
         yield return new WaitForSeconds(_dashCooldown);
         _canDash = true;
@@ -263,6 +275,17 @@ public class PlayerStateMachineManager : MonoBehaviour
         {
             time += Time.deltaTime;
             _rb.velocity = -transform.right * force;
+        }
+    }
+
+    private void SetDashCooldown()
+    {
+        float cooldown = 0;
+        while (cooldown < _dashCooldown + _dashTime)
+        {
+            Debug.Log(Mathf.Lerp(0f, 1f, cooldown));
+            _dashBar.SetDashTimeValue(cooldown);
+            cooldown = Mathf.Clamp(cooldown + Time.deltaTime, 0, _dashTime + _dashCooldown);
         }
     }
 }

@@ -12,6 +12,7 @@ public class AttackData : ScriptableObject
     [SerializeField] private float _hurtTime;
     [SerializeField] private float _knockbackForce;
     [SerializeField] private Sprite[] _canComboFrames;
+    [SerializeField] private Sprite _endFrame;
 
     public int AttackID
     {
@@ -40,5 +41,9 @@ public class AttackData : ScriptableObject
     public Sprite[] CanComboFrames
     {
         get { return _canComboFrames; }
+    }
+    public Sprite EndFrame
+    {
+        get { return _endFrame; }
     }
 }
