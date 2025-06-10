@@ -7,6 +7,11 @@ public class PlayerDamageManager : MonoBehaviour
     private PlayerStateMachineManager _stateMachineManager;
     [SerializeField] private HealthBar _healthBar;
 
+    [Range(0, 0.5f)]
+    [SerializeField] private float _freezeDuration = 0.5f;
+
+    private bool _freezeEnabled = false;
+
     private int _maxHealth = 100;
     private int _currentHealth = 100;
 
@@ -51,6 +56,10 @@ public class PlayerDamageManager : MonoBehaviour
                 {
                     _stateMachineManager.ChangeState(EPlayerState.HURT);
                     TakeDamage(collision.GetComponentInParent<PlayerStateMachineManager>().CurrentAttack.AttackDamage);
+                    if (!_freezeEnabled)
+                    {
+                        StartCoroutine(Freeze());
+                    }
                     Debug.Log("HIT " + name);
                 }
                     
@@ -64,6 +73,10 @@ public class PlayerDamageManager : MonoBehaviour
                 {
                     _stateMachineManager.ChangeState(EPlayerState.HURT);
                     TakeDamage(collision.GetComponentInParent<PlayerStateMachineManager>().CurrentAttack.AttackDamage);
+                    if (!_freezeEnabled)
+                    {
+                        StartCoroutine(Freeze());
+                    }
                     Debug.Log("HIT " + name);
                 }
                 else
@@ -76,5 +89,16 @@ public class PlayerDamageManager : MonoBehaviour
         {
             Debug.Log("tag error");
         }
+    }
+
+    public IEnumerator Freeze()
+    {
+        _freezeEnabled = true;
+        Time.timeScale = 0;
+
+        yield return new WaitForSecondsRealtime(_freezeDuration);
+
+        Time.timeScale = 1;
+        _freezeEnabled = false;
     }
 }

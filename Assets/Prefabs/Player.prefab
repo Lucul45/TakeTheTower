@@ -247,6 +247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerDamageManager: {fileID: 420786306830560700}
+  _winManager: {fileID: 0}
   _rb: {fileID: 216382335144830490}
   _animator: {fileID: 1875955441753283811}
   _spriteRenderer: {fileID: 37026037613520414}
@@ -257,6 +258,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 262371f95553bea4288ec135faae5214, type: 2}
   _hitbox: {fileID: 3195654395752132743}
   _dashBar: {fileID: 0}
+  _perfectParryFrame: {fileID: 0}
   _playerSpeed: 5
   _dashForce: 10
   _dashCooldown: 1
@@ -274,6 +276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthBar: {fileID: 0}
+  _freezeDuration: 0.15
 --- !u!1 &7770802639889903698
 GameObject:
   m_ObjectHideFlags: 0
