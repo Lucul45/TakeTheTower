@@ -9,6 +9,10 @@ public class MeleeBaseState : APlayerState
     private int _attackIndex = 1;
     public override void Enter()
     {
+        if (_stateManager.LastState == EPlayerState.DASH)
+        {
+            _attackIndex = 0;
+        }
         foreach (AttackData a in _stateManager.AttacksData)
         {
             if (a.AttackID == _attackIndex)
@@ -27,12 +31,13 @@ public class MeleeBaseState : APlayerState
         _stateManager.AttackPressed -= Attack;
     }
 
-    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb)
+    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, WinMenuManager winManager)
     {
         _stateManager = stateManager;
         _animator = animator;
         _spriteRenderer = spriteRenderer;
         _rb = rb;
+        _winManager = winManager;
     }
 
     public override void Update()
@@ -64,6 +69,7 @@ public class MeleeBaseState : APlayerState
         _animator.SetBool("IsAttacking1", false);
         _animator.SetBool("IsAttacking2", false);
         _animator.SetBool("IsAttacking3", false);
+        _animator.SetBool("IsAttackingDash", false);
     }
 
     private void Attack()

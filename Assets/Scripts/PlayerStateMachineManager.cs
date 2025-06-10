@@ -14,6 +14,7 @@ public enum EPlayerState
     PARRY,
     DASH,
     HURT,
+    DEAD,
     NONE
 }
 
@@ -22,14 +23,18 @@ public class PlayerStateMachineManager : MonoBehaviour
     [Header("States")]
     private Dictionary<EPlayerState, APlayerState> _states = null;
     private EPlayerState _currentState;
+    private EPlayerState _lastState;
 
     [Header("Refs")]
+    [SerializeField] private PlayerDamageManager _playerDamageManager;
+    [SerializeField] private WinMenuManager _winManager;
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private Animator _animator;
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private AttackData[] _attacksData;
     [SerializeField] private GameObject _hitbox;
     [SerializeField] private DashBar _dashBar;
+    [SerializeField] private Sprite _perfectParryFrame;
     private GameObject _otherPlayer;
 
     private float _fixedTime = 0f;
@@ -42,12 +47,14 @@ public class PlayerStateMachineManager : MonoBehaviour
 
     private bool _canParry = true;
     private bool _isParrying = false;
+    private bool _perfectParry = false;
 
     private bool _isHurt = false;
 
     [SerializeField] private float _dashForce = 10f;
     [SerializeField] private float _dashCooldown = 1f;
     [SerializeField] private float _dashTime = 0.2f;
+    private float _cooldown = 0;
     private bool _canDash = true;
 
     private PlayerControls _controls;
@@ -92,6 +99,14 @@ public class PlayerStateMachineManager : MonoBehaviour
             return _states[_currentState];
         }
     }
+    public EPlayerState LastState
+    {
+        get { return _lastState; }
+    }
+    public PlayerDamageManager PlayerDamageManager
+    {
+        get { return _playerDamageManager; }
+    }
     public AttackData[] AttacksData
     {
         get
@@ -102,6 +117,10 @@ public class PlayerStateMachineManager : MonoBehaviour
     public GameObject Hitbox
     {
         get { return _hitbox; }
+    }
+    public Sprite PerfectParryFrame
+    {
+        get { return _perfectParryFrame; }
     }
     public GameObject OtherPlayer
     {
@@ -133,7 +152,11 @@ public class PlayerStateMachineManager : MonoBehaviour
         get { return _isParrying; }
         set { _isParrying = value; }
     }
-
+    public bool PerfectParry
+    {
+        get { return _perfectParry; }
+        set { _perfectParry = value; }
+    }
     public bool IsHurt
     {
         get { return _isHurt; }
@@ -160,6 +183,7 @@ public class PlayerStateMachineManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _cooldown = _dashCooldown + _dashTime;
         _states = new Dictionary<EPlayerState, APlayerState>();
         _states.Add(EPlayerState.IDLE, new IdleState());
         _states.Add(EPlayerState.MOVE, new MoveState());
@@ -168,9 +192,10 @@ public class PlayerStateMachineManager : MonoBehaviour
         _states.Add(EPlayerState.PARRY, new ParryState());
         _states.Add(EPlayerState.DASH, new DashState());
         _states.Add(EPlayerState.HURT, new HurtState());
+        _states.Add(EPlayerState.DEAD, new DeadState());
         foreach (KeyValuePair<EPlayerState, APlayerState> state in _states)
         {
-            state.Value.Init(this, _animator, _spriteRenderer, _rb);
+            state.Value.Init(this, _animator, _spriteRenderer, _rb, _winManager);
         }
         _currentState = EPlayerState.IDLE;
         CurrentState.Enter();
@@ -180,6 +205,7 @@ public class PlayerStateMachineManager : MonoBehaviour
     void Update()
     {
         FixedTime += Time.deltaTime;
+        SetDashCooldown();
         CurrentState.Update();
         _animator.SetFloat("Speed", _rb.velocity.x);
     }
@@ -188,6 +214,7 @@ public class PlayerStateMachineManager : MonoBehaviour
     {
         Debug.Log("Transition from " + CurrentState + " To " + nextState);
         CurrentState.Exit();
+        _lastState = _currentState;
         _currentState = nextState;
         CurrentState.Enter();
     }
@@ -246,7 +273,7 @@ public class PlayerStateMachineManager : MonoBehaviour
         {
             _rb.velocity = new Vector2(RecordInput().normalized.x * _dashForce, 0);
         }
-        SetDashCooldown();
+        _cooldown = 0;
         yield return new WaitForSeconds(_dashTime);
         yield return new WaitForSeconds(_dashCooldown);
         _canDash = true;
@@ -280,12 +307,15 @@ public class PlayerStateMachineManager : MonoBehaviour
 
     private void SetDashCooldown()
     {
-        float cooldown = 0;
-        while (cooldown < _dashCooldown + _dashTime)
+        if (_cooldown < _dashCooldown + _dashTime)
         {
-            Debug.Log(Mathf.Lerp(0f, 1f, cooldown));
-            _dashBar.SetDashTimeValue(cooldown);
-            cooldown = Mathf.Clamp(cooldown + Time.deltaTime, 0, _dashTime + _dashCooldown);
+            _dashBar.SetDashTimeValue(_cooldown);
+            _cooldown = Mathf.Clamp(_cooldown + Time.deltaTime, 0, _dashTime + _dashCooldown);
         }
+    }
+
+    public void Test()
+    {
+        Debug.Log("TEST");
     }
 }

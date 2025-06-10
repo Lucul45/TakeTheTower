@@ -18,17 +18,22 @@ public class HurtState : APlayerState
         _animator.SetBool("IsHurt", false);
     }
 
-    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb)
+    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, WinMenuManager winManager)
     {
         _stateManager = stateManager;
         _animator = animator;
         _spriteRenderer = spriteRenderer;
         _rb = rb;
+        _winManager = winManager;
     }
 
     public override void Update()
     {
         _fixedTime += Time.deltaTime;
+        if (_stateManager.PlayerDamageManager.CurrentHealth <= 0)
+        {
+            _stateManager.ChangeState(EPlayerState.DEAD);
+        }
         if (_fixedTime >= _stateManager.OtherPlayer.GetComponent<PlayerStateMachineManager>().CurrentAttack.HurtTime)
         {
             _stateManager.IsHurt = false;

@@ -16,17 +16,26 @@ public class ParryState : APlayerState
         _stateManager.IsParrying = false;
     }
 
-    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb)
+    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, WinMenuManager winManager)
     {
         _stateManager = stateManager;
         _animator = animator;
         _spriteRenderer = spriteRenderer;
         _rb = rb;
+        _winManager = winManager;
     }
 
     public override void Update()
     {
         _stateManager.Move(Vector2.zero);
+        if (_stateManager.PerfectParryFrame == _spriteRenderer.sprite)
+        {
+            _stateManager.PerfectParry = true;
+        }
+        else
+        {
+            _stateManager.PerfectParry = false;
+        }
         if (_animator.GetBool("IsParrying") && _animator.GetCurrentAnimatorStateInfo(0).IsName("Parry"))
         {
             if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)

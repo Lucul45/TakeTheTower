@@ -32,10 +32,7 @@ public class PlayerDamageManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CurrentHealth == 0)
-        {
-            Debug.Log("DEAD " + name);
-        }
+        
     }
 
     public void TakeDamage(int damage)
@@ -53,7 +50,7 @@ public class PlayerDamageManager : MonoBehaviour
                 if (collision.GetComponentInParent<PlayerStateMachineManager>().CurrentAttack != null)
                 {
                     _stateMachineManager.ChangeState(EPlayerState.HURT);
-                    TakeDamage(10);
+                    TakeDamage(collision.GetComponentInParent<PlayerStateMachineManager>().CurrentAttack.AttackDamage);
                     Debug.Log("HIT " + name);
                 }
                     
@@ -66,7 +63,7 @@ public class PlayerDamageManager : MonoBehaviour
                 if (collision.GetComponentInParent<PlayerStateMachineManager>().CurrentAttack != null)
                 {
                     _stateMachineManager.ChangeState(EPlayerState.HURT);
-                    TakeDamage(10);
+                    TakeDamage(collision.GetComponentInParent<PlayerStateMachineManager>().CurrentAttack.AttackDamage);
                     Debug.Log("HIT " + name);
                 }
                 else

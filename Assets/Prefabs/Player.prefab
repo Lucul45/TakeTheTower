@@ -246,6 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e30983ddc4c1b4b8a044a6948e96bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerDamageManager: {fileID: 420786306830560700}
   _rb: {fileID: 216382335144830490}
   _animator: {fileID: 1875955441753283811}
   _spriteRenderer: {fileID: 37026037613520414}
@@ -253,7 +254,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 92e91e8ad5cf16e429e3469e55cc9303, type: 2}
   - {fileID: 11400000, guid: e434ac1d6181a0944836db519a03c621, type: 2}
   - {fileID: 11400000, guid: bb0cbbcfd07077a49afa4124532183c7, type: 2}
+  - {fileID: 11400000, guid: 262371f95553bea4288ec135faae5214, type: 2}
   _hitbox: {fileID: 3195654395752132743}
+  _dashBar: {fileID: 0}
   _playerSpeed: 5
   _dashForce: 10
   _dashCooldown: 1
@@ -271,12 +274,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthBar: {fileID: 0}
-  _player1Layer:
-    serializedVersion: 2
-    m_Bits: 64
-  _player2Layer:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!1 &7770802639889903698
 GameObject:
   m_ObjectHideFlags: 0

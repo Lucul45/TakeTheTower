@@ -8,6 +8,7 @@ public class AttackData : ScriptableObject
     [SerializeField] private int _attackID;
     [SerializeField] private string _animationName;
     [SerializeField] private string _animatorCondition;
+    [SerializeField] private int _attackDamage;
     [SerializeField] private float _attackCooldown;
     [SerializeField] private float _hurtTime;
     [SerializeField] private float _knockbackForce;
@@ -25,6 +26,10 @@ public class AttackData : ScriptableObject
     public string AnimatorCondition
     {
         get { return _animatorCondition; }
+    }
+    public int AttackDamage
+    {
+        get { return _attackDamage; }
     }
     public float AttackCooldown
     {

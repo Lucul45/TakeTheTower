@@ -19,19 +19,28 @@ public class IdleState : APlayerState
         _stateManager.DashPressed -= Dash;
     }
 
-    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb)
+    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, WinMenuManager winManager)
     {
         _stateManager = stateManager;
         _animator = animator;
         _spriteRenderer = spriteRenderer;
         _rb = rb;
+        _winManager = winManager;
     }
 
     public override void Update()
     {
+        if (_stateManager.PlayerDamageManager.CurrentHealth <= 0)
+        {
+            _stateManager.ChangeState(EPlayerState.DEAD);
+        }
         if (_stateManager.MovementInput.x != 0f)
         {
             _stateManager.ChangeState(EPlayerState.MOVE);
+        }
+        if (_stateManager.PlayerDamageManager.CurrentHealth == 0)
+        {
+            _stateManager.ChangeState(EPlayerState.DEAD);
         }
     }
 

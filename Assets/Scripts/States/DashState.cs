@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using UnityEngine;
 
 public class DashState : APlayerState
@@ -27,12 +28,13 @@ public class DashState : APlayerState
         _stateManager.ParryPressed -= Parry;
     }
 
-    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb)
+    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, WinMenuManager winManager)
     {
         _stateManager = stateManager;
         _animator = animator;
         _spriteRenderer = spriteRenderer;
         _rb = rb;
+        _winManager = winManager;
     }
 
     public override void Update()
@@ -52,10 +54,7 @@ public class DashState : APlayerState
 
     private void Attack()
     {
-        if (_stateManager.CanDash && _stateManager.CanAttack)
-        {
-            _stateManager.ChangeState(EPlayerState.MELEE);
-        }
+        _stateManager.ChangeState(EPlayerState.MELEE);
     }
 
     private void Parry()

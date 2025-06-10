@@ -15,6 +15,7 @@ MonoBehaviour:
   _attackID: 3
   _animationName: Attack3
   _animatorCondition: IsAttacking3
+  _attackDamage: 12
   _attackCooldown: 3
   _hurtTime: 3
   _knockbackForce: 3
