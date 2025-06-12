@@ -272,8 +272,9 @@ MonoBehaviour:
   _hitbox: {fileID: 3195654395752132743}
   _dashBar: {fileID: 0}
   _perfectParryFrame: {fileID: 0}
+  _otherPlayer: {fileID: 0}
   _playerSpeed: 5
-  _clankForce: 100
+  _clankForce: 200
   _dashForce: 10
   _dashCooldown: 1
   _dashTime: 0.2

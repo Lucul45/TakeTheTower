@@ -8,21 +8,9 @@ public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] private Canvas _mainMenu;
     [SerializeField] private Canvas _tutorialMenu;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void Play()
     {
-        Time.timeScale = 1.0f;
         SceneManager.LoadScene("Game");
     }
 

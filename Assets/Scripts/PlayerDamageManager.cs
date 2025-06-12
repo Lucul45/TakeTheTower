@@ -51,7 +51,7 @@ public class PlayerDamageManager : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        _stateMachineManager.OtherPlayer = collision.GetComponentInParent<PlayerStateMachineManager>().gameObject;
+        /*_stateMachineManager.OtherPlayer = collision.GetComponentInParent<PlayerStateMachineManager>().gameObject;
         if (tag == "Player1" && collision.transform.parent.gameObject.tag == "Player2")
         {
             if (!_stateMachineManager.IsParrying)
@@ -92,7 +92,7 @@ public class PlayerDamageManager : MonoBehaviour
         else
         {
             Debug.Log("tag error");
-        }
+        }*/
     }
 
     public IEnumerator Freeze()

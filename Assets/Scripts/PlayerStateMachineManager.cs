@@ -35,7 +35,7 @@ public class PlayerStateMachineManager : MonoBehaviour
     [SerializeField] private GameObject _hitbox;
     [SerializeField] private DashBar _dashBar;
     [SerializeField] private Sprite _perfectParryFrame;
-    private GameObject _otherPlayer;
+    [SerializeField] private GameObject _otherPlayer;
 
     private float _fixedTime = 0f;
 
@@ -320,7 +320,8 @@ public class PlayerStateMachineManager : MonoBehaviour
 
     public void Clank()
     {
+        StartCoroutine(_playerDamageManager.Freeze());
         ChangeState(EPlayerState.IDLE);
-        _rb.AddForce(-transform.forward * _clankForce);
+        _rb.AddForce(-transform.right * _clankForce);
     }
 }

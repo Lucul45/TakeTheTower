@@ -6,6 +6,7 @@ using UnityEngine;
 public class MeleeBaseState : APlayerState
 {
     private bool _shouldCombo = false;
+    private bool _canClank = false;
     private int _attackIndex = 1;
     public override void Enter()
     {
@@ -20,14 +21,18 @@ public class MeleeBaseState : APlayerState
                 _stateManager.CurrentAttack = a;
             }
         }
-        _stateManager.Hitbox.tag = _stateManager.CurrentAttack.AnimationName;
+        //_stateManager.Hitbox.tag = _stateManager.CurrentAttack.AnimationName;
         _animator.SetBool(_stateManager.CurrentAttack.AnimatorCondition, true);
         _stateManager.AttackPressed += Attack;
     }
 
     public override void Exit()
     {
-        _stateManager.Hitbox.tag = "Attack";
+        if (_canClank && !_shouldCombo)
+        {
+            ResetCombo();
+        }
+        //_stateManager.Hitbox.tag = "Attack";
         _stateManager.AttackPressed -= Attack;
     }
 
@@ -55,10 +60,14 @@ public class MeleeBaseState : APlayerState
         {
             if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f && !_animator.IsInTransition(0))
             {
+                _canClank = false;
                 ResetCombo();
                 _stateManager.ChangeState(EPlayerState.IDLE);
             }
-            
+            else
+            {
+                _canClank = true;
+            }
         }
     }
 
