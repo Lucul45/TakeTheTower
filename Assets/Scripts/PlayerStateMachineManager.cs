@@ -208,6 +208,7 @@ public class PlayerStateMachineManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        FrameManager.Instance.FrameUpdate += UpdateFrame; 
         _cooldown = _dashCooldown + _dashTime;
         _states = new Dictionary<EPlayerState, APlayerState>();
         _states.Add(EPlayerState.IDLE, new IdleState());
@@ -226,8 +227,8 @@ public class PlayerStateMachineManager : MonoBehaviour
         CurrentState.Enter();
     }
 
-    // Update is called once per frame
-    void Update()
+    // UpdateFrame is called once per frame
+    public void UpdateFrame()
     {
         FixedTime += Time.deltaTime;
         SetDashCooldown();
