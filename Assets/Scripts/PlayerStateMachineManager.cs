@@ -18,7 +18,7 @@ public enum EPlayerState
     NONE
 }
 
-public class PlayerStateMachineManager : MonoBehaviour
+public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
 {
     [Header("States")]
     private Dictionary<EPlayerState, APlayerState> _states = null;
@@ -145,7 +145,11 @@ public class PlayerStateMachineManager : MonoBehaviour
     public AttackData CurrentAttack
     {
         get { return _currentAttack; }
-        set { _currentAttack = value; }
+        set 
+        { 
+            _currentAttack = value;
+            FrameDataManager.Instance.ChangeFrameDataUI(_currentAttack);
+        }
     }
     public bool CanAttack
     {
