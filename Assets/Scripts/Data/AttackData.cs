@@ -6,10 +6,12 @@ using UnityEngine;
 public class AttackData : ScriptableObject
 {
     [SerializeField] private int _attackID;
+    [SerializeField] private AnimationClip _clip;
     [SerializeField] private string _animationName;
     [SerializeField] private string _animatorCondition;
     [SerializeField] private int _attackDamage;
-    [SerializeField] private float _attackCooldown;
+    [SerializeField] private int _attackStartup;
+    [SerializeField] private int _attackCooldown;
     [SerializeField] private float _hitStun;
     [SerializeField] private float _knockbackForce;
     [SerializeField] private Sprite[] _canComboFrames;
@@ -19,6 +21,10 @@ public class AttackData : ScriptableObject
     public int AttackID
     {
         get { return _attackID; }
+    }
+    public AnimationClip Clip
+    {
+        get { return _clip; }
     }
     public string AnimationName
     {
@@ -32,7 +38,11 @@ public class AttackData : ScriptableObject
     {
         get { return _attackDamage; }
     }
-    public float AttackCooldown
+    public int AttackStartup
+    {
+        get { return _attackStartup; }
+    }
+    public int AttackCooldown
     {
         get { return _attackCooldown; }
     }

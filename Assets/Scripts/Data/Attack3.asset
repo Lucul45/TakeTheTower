@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Attack3
   m_EditorClassIdentifier: 
   _attackID: 3
+  _clip: {fileID: 7400000, guid: c31f6ba6e4ce0db47bfe6db273213e6a, type: 2}
   _animationName: Attack3
   _animatorCondition: IsAttacking3
   _attackDamage: 12
-  _attackCooldown: 3
+  _attackStartup: 7
+  _attackCooldown: 37
   _hitStun: 0.5
   _knockbackForce: 7
   _canComboFrames:

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,6 +6,7 @@ using UnityEngine;
 
 public class MeleeBaseState : APlayerState
 {
+    private int _currentAttackFrame = 0;
 
     public override void Enter()
     {
@@ -50,7 +52,9 @@ public class MeleeBaseState : APlayerState
 
     public override void Update()
     {
+        _currentAttackFrame = Convert.ToInt32(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime * (_animator.GetCurrentAnimatorClipInfo(0)[0].clip.length * _animator.GetCurrentAnimatorClipInfo(0)[0].clip.frameRate));
         _stateManager.Move(Vector2.zero);
+        Debug.Log(_currentAttackFrame);
         if (_stateManager.CurrentAttack.CanComboFrames.Contains<Sprite>(_spriteRenderer.sprite))
         {
             _stateManager.ShouldCombo = true;
