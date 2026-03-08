@@ -12,6 +12,7 @@ TagManager:
   - Attack2
   - Attack3
   - Attack
+  - Tower
   layers:
   - Default
   - TransparentFX
@@ -21,10 +22,10 @@ TagManager:
   - UI
   - Player1
   - Player2
-  - 
-  - 
-  - 
-  - 
+  - Tower1
+  - Tower2
+  - Attack1
+  - Attack2
   - 
   - 
   - 

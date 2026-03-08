@@ -17,5 +17,9 @@ public class AttackDetection : MonoBehaviour
             PlayerStateMachineManager.Instance.ChangeStateP1(EPlayerState.HURT);
             PlayerStateMachineManager.Instance.CurrentStateP1.AttackHitten = GetComponentInParent<PlayerController>().CurrentAttack;
         }
+        else if (collision.tag == "Tower")
+        {
+            collision.GetComponentInParent<TowerBehavior>().GetDamaged(GetComponentInParent<PlayerController>().CurrentAttack.AttackDamage);
+        }
     }
 }

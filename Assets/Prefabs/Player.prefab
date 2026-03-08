@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7865979820750796383}
   - component: {fileID: 5184936694353638530}
   - component: {fileID: 349816536902938203}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AttackHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 216382335144830490}
   - component: {fileID: 420786306830560700}
   - component: {fileID: 5579199154852900648}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player1
   m_Icon: {fileID: 0}
@@ -298,7 +298,7 @@ GameObject:
   - component: {fileID: 37026037613520414}
   - component: {fileID: 1875955441753283811}
   - component: {fileID: 2408087895345596225}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Capsule
   m_TagString: Player1
   m_Icon: {fileID: 0}
