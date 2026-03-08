@@ -5856,6 +5856,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvasFrameData
       objectReference: {fileID: 0}
+    - target: {fileID: 2816037568628827408, guid: ce2307519a6d0a14bb407c8bf88fd1b7, type: 3}
+      propertyPath: m_text
+      value: 'Active frames : '
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859933945389846589, guid: ce2307519a6d0a14bb407c8bf88fd1b7, type: 3}
+      propertyPath: m_text
+      value: 'Advantage frames : --'
+      objectReference: {fileID: 0}
     - target: {fileID: 7954341249584316749, guid: ce2307519a6d0a14bb407c8bf88fd1b7, type: 3}
       propertyPath: m_Pivot.x
       value: 0
