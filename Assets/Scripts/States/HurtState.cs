@@ -1,16 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class HurtState : APlayerState
 {
-    private float _fixedTime = 0;
+    private uint _hitAttackFrame = 0;
     public override void Enter()
     {
-        _stateManager.ResetCombo();
-        _stateManager.Knockback(_stateManager.OtherPlayer.GetComponent<PlayerStateMachineManager>().CurrentAttack.KnockbackForce, 0.5f);
+        if (_playerController.PlayerID == 1)
+        {
+            StateFrameP1 = 0;
+        }
+        else
+        {
+            StateFrameP2 = 0;
+        }
+        if (FrameManager.Instance.PlayersActionFrames[FrameManager.Instance.ElapsedFrames][0].PlayerID != _playerController.PlayerID)
+        {
+            _hitAttackFrame = FrameManager.Instance.PlayersActionFrames[FrameManager.Instance.ElapsedFrames][0].StateFrame;
+        }
+        else
+        {
+            _hitAttackFrame = FrameManager.Instance.PlayersActionFrames[FrameManager.Instance.ElapsedFrames][1].StateFrame;
+        }
+        FrameManager.Instance.FrameDataUI.ResetAdvantageCalculated();
+        _playerController.ResetCombo();
         _animator.SetBool("IsHurt", true);
-        _fixedTime = 0;
     }
 
     public override void Exit()
@@ -18,25 +35,34 @@ public class HurtState : APlayerState
         _animator.SetBool("IsHurt", false);
     }
 
-    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, WinMenuManager winManager)
+    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController playerController)
     {
         _stateManager = stateManager;
         _animator = animator;
         _spriteRenderer = spriteRenderer;
         _rb = rb;
-        _winManager = winManager;
+        _playerController = playerController;
     }
 
     public override void Update()
     {
-        _fixedTime += Time.deltaTime;
-        if (_stateManager.PlayerDamageManager.CurrentHealth <= 0)
+        if (_playerController.PlayerID == 1)
         {
-            _stateManager.ChangeState(EPlayerState.DEAD);
+            StateFrameP1++;
+            // If the frame on the current is greater or equal than hitstun, then change state to idle
+            if (StateFrameP1 >= (int)(AttackHitten.Clip.length * 60) - _hitAttackFrame + AttackHitten.AdvantageFrames)
+            {
+                _stateManager.ChangeStateP1(EPlayerState.IDLE);
+            }
         }
-        if (!_stateManager.IsStunned && _fixedTime > _stateManager.OtherPlayer.GetComponent<PlayerStateMachineManager>().CurrentAttack.HitStun)
+        else
         {
-            _stateManager.ChangeState(EPlayerState.IDLE);
+            StateFrameP2++;
+            // If the frame on the current is greater or equal than hitstun, then change state to idle
+            if (StateFrameP2 >= (int)(AttackHitten.Clip.length * 60) - _hitAttackFrame + AttackHitten.AdvantageFrames)
+            {
+                _stateManager.ChangeStateP2(EPlayerState.IDLE);
+            }
         }
     }
 }

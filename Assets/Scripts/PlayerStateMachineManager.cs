@@ -1,386 +1,228 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
+using static FrameManager;
 
 public enum EPlayerState
 {
     IDLE,
     MOVE,
-    MELEEENTRY,
     MELEE,
-    THROW,
-    PARRY,
-    DASH,
     HURT,
-    DEAD,
     NONE
 }
 
 public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
 {
-    [Header("States")]
-    private Dictionary<EPlayerState, APlayerState> _states = null;
-    private EPlayerState _currentState;
-    private EPlayerState _lastState;
-
+    #region Attributs
     [Header("Refs")]
-    [SerializeField] private PlayerDamageManager _playerDamageManager;
-    [SerializeField] private WinMenuManager _winManager;
-    [SerializeField] private Rigidbody2D _rb;
-    [SerializeField] private Animator _animator;
-    [SerializeField] private SpriteRenderer _spriteRenderer;
-    [SerializeField] private AttackData[] _attacksData;
-    [SerializeField] private GameObject _hitbox;
-    [SerializeField] private DashBar _dashBar;
-    [SerializeField] private Sprite _perfectParryFrame;
-    [SerializeField] private GameObject _otherPlayer;
+    [SerializeField] private PlayerController _player1;
+    [SerializeField] private PlayerController _player2;
 
-    private float _fixedTime = 0f;
+    [Header("States P1")]
+    private Dictionary<EPlayerState, APlayerState> _statesP1 = null;
+    private EPlayerState _currentStateP1;
+    private EPlayerState _lastStateP1;
 
-    [SerializeField] private float _playerSpeed = 10f;
-    [SerializeField] private float _clankForce = 10f;
+    [Header("States P2")]
+    private Dictionary<EPlayerState, APlayerState> _statesP2 = null;
+    private EPlayerState _currentStateP2;
+    private EPlayerState _lastStateP2;
 
-    private Vector2 _movementInput = Vector2.zero;
+    private uint _stateFrameP1 = 0;
+    private uint _stateFrameP2 = 0;
 
-    private bool _canMove = true;
+    private uint _lastAttackToIdleFrameP1 = 0;
+    private uint _lastHurtToIdleFrameP1 = 0;
+    private uint _lastAttackToIdleFrameP2 = 0;
+    private uint _lastHurtToIdleFrameP2 = 0;
+    #endregion Attributs
 
-    private AttackData _currentAttack = null;
-    private bool _canAttack = true;
-    private int _attackIndex = 1;
-    private bool _shouldCombo = false;
-
-    private bool _canParry = true;
-    private bool _isParrying = false;
-    private bool _perfectParry = false;
-
-    private bool _isStunned = false;
-    private bool _canClank = false;
-
-    [SerializeField] private float _dashForce = 10f;
-    [SerializeField] private float _dashCooldown = 1f;
-    [SerializeField] private float _dashTime = 0.2f;
-    private float _cooldown = 0;
-    private bool _canDash = true;
-
-    private PlayerControls _controls;
-
-    private Dictionary<EPlayerState, int> _stateOnFrame = new Dictionary<EPlayerState, int>();
-
-    private event Action _attackPressed = null;
-    public event Action AttackPressed
-    {
-        add 
-        {
-            _attackPressed -= value;
-            _attackPressed += value; 
-        }
-        remove { _attackPressed -= value; }
-    }
-
-    private event Action _parryPressed = null;
-    public event Action ParryPressed
-    {
-        add
-        {
-            _parryPressed -= value;
-            _parryPressed += value;
-        }
-        remove { _parryPressed -= value; }
-    }
-
-    private event Action _dashPressed = null;
-    public event Action DashPressed
-    {
-        add
-        {
-            _dashPressed -= value;
-            _dashPressed += value;
-        }
-        remove { _dashPressed -= value; }
-    }
-
-    public APlayerState CurrentState
+    #region Properties
+    public APlayerState CurrentStateP1
     {
         get
         {
-            return _states[_currentState];
+            return _statesP1[_currentStateP1];
         }
     }
-    public EPlayerState EnumCurrentState
+    public EPlayerState EnumCurrentStateP1
     {
         get
         {
-            return _currentState;
+            return _currentStateP1;
         }
     }
-    public EPlayerState LastState
-    {
-        get { return _lastState; }
-    }
-    public PlayerDamageManager PlayerDamageManager
-    {
-        get { return _playerDamageManager; }
-    }
-    public AttackData[] AttacksData
+    public APlayerState CurrentStateP2
     {
         get
         {
-            return _attacksData;
+            return _statesP2[_currentStateP2];
         }
     }
-    public GameObject Hitbox
+    public EPlayerState EnumCurrentStateP2
     {
-        get { return _hitbox; }
-    }
-    public Sprite PerfectParryFrame
-    {
-        get { return _perfectParryFrame; }
-    }
-    public GameObject OtherPlayer
-    {
-        get { return _otherPlayer; }
-        set { _otherPlayer = value; }
-    }
-    public Vector2 MovementInput
-    {
-        get { return _movementInput; }
-    }
-    public bool CanMove
-    {
-        get { return _canMove; }
-    }
-    public AttackData CurrentAttack
-    {
-        get { return _currentAttack; }
-        set 
-        { 
-            _currentAttack = value;
+        get
+        {
+            return _currentStateP2;
         }
     }
-    public bool CanAttack
+    public EPlayerState LastStateP1
     {
-        get { return _canAttack; }
-        set { _canAttack = value; }
+        get { return _lastStateP1; }
     }
-    public int AttackIndex
+    public EPlayerState LastStateP2
     {
-        get { return _attackIndex; }
-        set { _attackIndex = value; }
+        get { return _lastStateP2; }
     }
-    public bool ShouldCombo
+    public uint StateFrameP1
     {
-        get { return _shouldCombo; }
-        set { _shouldCombo = value; }
+        get { return _stateFrameP1; }
+        set { _stateFrameP1 = value; }
     }
-    public bool CanParry
+    public uint StateFrameP2
     {
-        get { return _canParry; }
-        set { _canParry = value; }
+        get { return _stateFrameP2; }
+        set { _stateFrameP2 = value; }
     }
-
-    public bool IsParrying
+    public uint LastAttackToIdleFrameP1
     {
-        get { return _isParrying; }
-        set { _isParrying = value; }
+        get { return _lastAttackToIdleFrameP1; }
     }
-    public bool PerfectParry
+    public uint LastHurtToIdleFrameP1
     {
-        get { return _perfectParry; }
-        set { _perfectParry = value; }
+        get { return _lastHurtToIdleFrameP1; }
     }
-    public bool IsStunned
+    public uint LastAttackToIdleFrameP2
     {
-        get { return _isStunned; }
+        get { return _lastAttackToIdleFrameP2; }
     }
-    public bool CanClank
+    public uint LastHurtToIdleFrameP2
     {
-        get { return _canClank; }
-        set { _canClank = value; }
+        get { return _lastHurtToIdleFrameP2; }
     }
-    public float DashTime
-    {
-        get { return _dashTime; }
-    }
-    public float DashCooldown
-    {
-        get { return _dashCooldown; }
-    }
-    public bool CanDash
-    {
-        get { return _canDash; }
-    }
-    public float FixedTime
-    {
-        get { return _fixedTime; }
-        set { _fixedTime = value; }
-    }
-    public Dictionary<EPlayerState, int> StateOnFrame
-    {
-        get { return _stateOnFrame; }
-    }
+    #endregion Properties
 
     // Start is called before the first frame update
     void Start()
     {
+        // Plug the update on the frames
         FrameManager.Instance.FrameUpdate += UpdateOnFrame;
-        _cooldown = _dashCooldown + _dashTime;
-        _states = new Dictionary<EPlayerState, APlayerState>();
-        _states.Add(EPlayerState.IDLE, new IdleState());
-        _states.Add(EPlayerState.MOVE, new MoveState());
-        _states.Add(EPlayerState.THROW, new ThrowState());
-        _states.Add(EPlayerState.MELEE, new MeleeBaseState());
-        _states.Add(EPlayerState.PARRY, new ParryState());
-        _states.Add(EPlayerState.DASH, new DashState());
-        _states.Add(EPlayerState.HURT, new HurtState());
-        _states.Add(EPlayerState.DEAD, new DeadState());
-        foreach (KeyValuePair<EPlayerState, APlayerState> state in _states)
+        // Initializing the state machine
+        _statesP1 = new Dictionary<EPlayerState, APlayerState>();
+        _statesP1.Add(EPlayerState.IDLE, new IdleState());
+        _statesP1.Add(EPlayerState.MOVE, new MoveState());
+        _statesP1.Add(EPlayerState.MELEE, new MeleeBaseState());
+        _statesP1.Add(EPlayerState.HURT, new HurtState());
+
+        _statesP2 = new Dictionary<EPlayerState, APlayerState>();
+        _statesP2.Add(EPlayerState.IDLE, new IdleState());
+        _statesP2.Add(EPlayerState.MOVE, new MoveState());
+        _statesP2.Add(EPlayerState.MELEE, new MeleeBaseState());
+        _statesP2.Add(EPlayerState.HURT, new HurtState());
+
+        foreach (KeyValuePair<EPlayerState, APlayerState> state in _statesP1)
         {
-            state.Value.Init(this, _animator, _spriteRenderer, _rb, _winManager);
+            state.Value.Init(this, _player1.Animator, _player1.SpriteRenderer, _player1.Rb, _player1);
         }
-        _currentState = EPlayerState.IDLE;
-        CurrentState.Enter();
+        foreach (KeyValuePair<EPlayerState, APlayerState> state in _statesP2)
+        {
+            state.Value.Init(this, _player2.Animator, _player2.SpriteRenderer, _player2.Rb, _player2);
+        }
+        _currentStateP1 = EPlayerState.IDLE;
+        _currentStateP2 = EPlayerState.IDLE;
+        CurrentStateP1.Enter();
+        CurrentStateP2.Enter();
     }
 
-    // UpdateFrame is called once per frame
+    // UpdateOnFrame is called once per frame
     public void UpdateOnFrame()
     {
-        FixedTime += Time.deltaTime;
-        SetDashCooldown();
-        CurrentState.Update();
-        _animator.SetFloat("Speed", _rb.velocity.x);
+        // Registering the data on each frame
+        FrameActionData dataP1 = new FrameActionData()
+        {
+            PlayerID = _player1.PlayerID,
+            PlayerState = _currentStateP1,
+            StateFrame = _stateFrameP1,
+            IsHitting = _player1.IsHitting
+        };
+        FrameActionData dataP2 = new FrameActionData()
+        {
+            PlayerID = _player2.PlayerID,
+            PlayerState = _currentStateP2,
+            StateFrame = _stateFrameP2,
+            IsHitting = _player2.IsHitting
+        };
+        CurrentStateP1.Update();
+        CurrentStateP2.Update();
+        _player1.Animator.SetFloat("Speed", _player1.Rb.velocity.x);
+        _player2.Animator.SetFloat("Speed", _player2.Rb.velocity.x);
+        // Add a new frame data to the dictionary
+        FrameManager.Instance.AddActionFrameData(dataP1);
+        FrameManager.Instance.AddActionFrameData(dataP2);
+        // Remove the earliest frame data of the dictionary
+        FrameManager.Instance.RemoveActionFrameData();
     }
 
     // Change the state of the state machine and store on which frame it does
-    public void ChangeState(EPlayerState nextState)
+    public void ChangeStateP1(EPlayerState nextState)
     {
-        Debug.Log("Transition from " + CurrentState + " To " + nextState);
-        CurrentState.Exit();
-        _stateOnFrame.Clear();
-        _lastState = _currentState;
-        _currentState = nextState;
-        _stateOnFrame.Add(_currentState, FrameManager.Instance.ElapsedFrames);
-        CurrentState.Enter();
-    }
-
-    public void GetMovementInput(InputAction.CallbackContext context)
-    {
-        _movementInput = context.ReadValue<Vector2>();
-    }
-
-    public void GetAttackInput(InputAction.CallbackContext context)
-    {
-        if (_attackPressed != null && context.started)
+        UnityEngine.Debug.Log("Transition from " + CurrentStateP1 + " To " + nextState);
+        CurrentStateP1.Exit();
+        _lastStateP1 = _currentStateP1;
+        if (_currentStateP1 == EPlayerState.MELEE && nextState == EPlayerState.IDLE)
         {
-            _attackPressed();
+            _lastAttackToIdleFrameP1 = FrameManager.Instance.ElapsedFrames;
+            UnityEngine.Debug.Log($"Joueur {gameObject.name} (Attack) -> IDLE à la frame : {_lastAttackToIdleFrameP1}");
         }
-        
-    }
-
-    public void GetParryInput(InputAction.CallbackContext context)
-    {
-        if (_parryPressed != null && context.started)
+        if (_currentStateP1 == EPlayerState.HURT && nextState == EPlayerState.IDLE)
         {
-            _parryPressed();
+            _lastHurtToIdleFrameP1 = FrameManager.Instance.ElapsedFrames;
+            UnityEngine.Debug.Log($"Joueur {gameObject.name} (Hurt) -> IDLE à la frame : {_lastHurtToIdleFrameP1}");
         }
+        _currentStateP1 = nextState;
+        CurrentStateP1.Enter();
     }
 
-    public void GetDashInput(InputAction.CallbackContext context)
+    public void ChangeStateP2(EPlayerState nextState)
     {
-        //Debug.Log("input");
-        if (_dashPressed != null && context.started)
+        UnityEngine.Debug.Log("Transition from " + CurrentStateP2 + " To " + nextState);
+        CurrentStateP2.Exit();
+        _lastStateP2 = _currentStateP2;
+        if (_currentStateP2 == EPlayerState.MELEE && nextState == EPlayerState.IDLE)
         {
-            //Debug.Log("DASH");
-            _dashPressed();
+            _lastAttackToIdleFrameP2 = FrameManager.Instance.ElapsedFrames;
+            UnityEngine.Debug.Log($"Joueur {gameObject.name} (Attack) -> IDLE à la frame : {_lastAttackToIdleFrameP2}");
         }
-    }
-
-    public void Move(Vector2 dir)
-    {
-        _rb.velocity = new Vector2(dir.x * _playerSpeed, 0);
-    }
-
-    // store the input to set the direction of the dash
-    public Vector2 RecordInput()
-    {
-        Vector2 recorded = _rb.velocity;    
-        return recorded;
-    }
-
-    public IEnumerator Dash()
-    {
-        _canDash = false;
-        if (RecordInput().normalized.x == 0)
+        if (_currentStateP2 == EPlayerState.HURT && nextState == EPlayerState.IDLE)
         {
-            _rb.velocity = transform.right * _dashForce;
+            _lastHurtToIdleFrameP2 = FrameManager.Instance.ElapsedFrames;
+            UnityEngine.Debug.Log($"Joueur {gameObject.name} (Hurt) -> IDLE à la frame : {_lastHurtToIdleFrameP2}");
         }
-        else
-        {
-            _rb.velocity = new Vector2(RecordInput().normalized.x * _dashForce, 0);
-        }
-        _cooldown = 0;
-        yield return new WaitForSeconds(_dashTime);
-        yield return new WaitForSeconds(_dashCooldown);
-        _canDash = true;
+        _currentStateP2 = nextState;
+        CurrentStateP2.Enter();
     }
 
-    public IEnumerator AttackCooldown(float cooldown)
+    public void ResetLastAttackToIdleFrameP1()
     {
-        _animator.speed = 0f;
-        CanAttack = false;
-        yield return new WaitForSeconds(cooldown);
-        _animator.speed = 1f;
-        CanAttack = true;
+        _lastAttackToIdleFrameP1 = 0;
     }
 
-    public IEnumerator HitStun(float time)
+    public void ResetLastHurtToIdleFrameP1()
     {
-        _isStunned = true;
-        _animator.speed = 0f;
-
-        yield return new WaitForSeconds(time);
-
-        _animator.speed = 1f;
-        _isStunned = false;
+        _lastHurtToIdleFrameP1 = 0;
+    }
+    public void ResetLastAttackToIdleFrameP2()
+    {
+        _lastAttackToIdleFrameP2 = 0;
     }
 
-    public void Knockback(float force, float duration)
+    public void ResetLastHurtToIdleFrameP2()
     {
-        float time = 0;
-        while (time < duration)
-        {
-            time += Time.deltaTime;
-            _rb.velocity = -transform.right * force;
-        }
-    }
-
-    private void SetDashCooldown()
-    {
-        if (_cooldown < _dashCooldown + _dashTime)
-        {
-            _dashBar.SetDashTimeValue(_cooldown);
-            _cooldown = Mathf.Clamp(_cooldown + Time.deltaTime, 0, _dashTime + _dashCooldown);
-        }
-    }
-
-    public IEnumerator Clank()
-    {
-        _canMove = false;
-        StartCoroutine(_playerDamageManager.Freeze());
-        ChangeState(EPlayerState.IDLE);
-        _rb.AddForce(-transform.right * _clankForce);
-        yield return new WaitForSeconds(0.5f);
-        _canMove = true;
-    }
-
-    public void ResetCombo()
-    {
-        _attackIndex = 1;
-        _shouldCombo = false;
-        _animator.SetBool("IsAttacking1", false);
-        _animator.SetBool("IsAttacking2", false);
-        _animator.SetBool("IsAttacking3", false);
-        _animator.SetBool("IsAttackingDash", false);
+        _lastHurtToIdleFrameP2 = 0;
     }
 }

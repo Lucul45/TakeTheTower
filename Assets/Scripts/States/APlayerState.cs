@@ -8,9 +8,46 @@ public abstract class APlayerState
     protected Animator _animator;
     protected SpriteRenderer _spriteRenderer;
     protected Rigidbody2D _rb;
-    protected WinMenuManager _winManager;
+    protected PlayerController _playerController;
 
-    public abstract void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, WinMenuManager winManager);
+    protected uint _stateFrameP1 = 0;
+    protected uint _stateFrameP2 = 0;
+    protected AttackData _attackHitten;
+
+    /// <summary>
+    /// The number of frames during which player 1 remained in the current state.
+    /// </summary>
+    protected uint StateFrameP1
+    {
+        get {  return _stateFrameP1; }
+        set 
+        {  
+            _stateFrameP1 = value;
+            _stateManager.StateFrameP1 = _stateFrameP1;
+        }
+    }
+    /// <summary>
+    /// The number of frames during which player 2 remained in the current state.
+    /// </summary>
+    protected uint StateFrameP2
+    {
+        get { return _stateFrameP2; }
+        set
+        {
+            _stateFrameP2 = value;
+            _stateManager.StateFrameP2 = _stateFrameP2;
+        }
+    }
+    /// <summary>
+    /// The data of the attack the 
+    /// </summary>
+    public AttackData AttackHitten
+    {
+        get { return _attackHitten; }
+        set {  _attackHitten = value; }
+    }
+
+    public abstract void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController _playerController);
 
     public abstract void Enter();
 

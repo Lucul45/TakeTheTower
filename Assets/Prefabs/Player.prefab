@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7865979820750796383}
   - component: {fileID: 5184936694353638530}
-  - component: {fileID: 7487360976624160613}
+  - component: {fileID: 349816536902938203}
   m_Layer: 0
   m_Name: AttackHitbox
   m_TagString: Untagged
@@ -78,7 +78,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.0533638, y: 3.8296242}
   m_EdgeRadius: 0
---- !u!114 &7487360976624160613
+--- !u!114 &349816536902938203
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,7 +87,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3195654395752132743}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46687bb0f488a0843b7cf8b64693ba70, type: 3}
+  m_Script: {fileID: 11500000, guid: f4179b567fc31cc47857a08fc9fc8f59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3555388760170741894
@@ -101,8 +101,8 @@ GameObject:
   - component: {fileID: 6032529101743062088}
   - component: {fileID: 1548162989360856272}
   - component: {fileID: 216382335144830490}
-  - component: {fileID: 1902538222313046845}
   - component: {fileID: 420786306830560700}
+  - component: {fileID: 5579199154852900648}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player1
@@ -153,7 +153,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1902538222313046845}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerStateMachineManager, Assembly-CSharp
         m_MethodName: GetMovementInput
         m_Mode: 0
@@ -169,7 +169,7 @@ MonoBehaviour:
     m_ActionName: Player/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/DualShock4GamepadHID/leftStick]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1902538222313046845}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerStateMachineManager, Assembly-CSharp
         m_MethodName: GetAttackInput
         m_Mode: 0
@@ -185,7 +185,7 @@ MonoBehaviour:
     m_ActionName: Player/Attack[/Keyboard/j,/DualShock4GamepadHID/buttonWest]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1902538222313046845}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerStateMachineManager, Assembly-CSharp
         m_MethodName: GetParryInput
         m_Mode: 0
@@ -201,7 +201,7 @@ MonoBehaviour:
     m_ActionName: Player/Parry[/Keyboard/k,/DualShock4GamepadHID/rightShoulder]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1902538222313046845}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerStateMachineManager, Assembly-CSharp
         m_MethodName: GetDashInput
         m_Mode: 0
@@ -215,6 +215,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 1b40b4fe-a85e-4347-a532-b3549622adc7
     m_ActionName: Player/Dash[/Keyboard/l,/DualShock4GamepadHID/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 42e66559-a041-411e-8d3b-2d53f86d88c4
+    m_ActionName: Player/Throw
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Player
@@ -247,37 +251,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &1902538222313046845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3555388760170741894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54e30983ddc4c1b4b8a044a6948e96bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerDamageManager: {fileID: 420786306830560700}
-  _winManager: {fileID: 0}
-  _rb: {fileID: 216382335144830490}
-  _animator: {fileID: 1875955441753283811}
-  _spriteRenderer: {fileID: 37026037613520414}
-  _attacksData:
-  - {fileID: 11400000, guid: 92e91e8ad5cf16e429e3469e55cc9303, type: 2}
-  - {fileID: 11400000, guid: e434ac1d6181a0944836db519a03c621, type: 2}
-  - {fileID: 11400000, guid: bb0cbbcfd07077a49afa4124532183c7, type: 2}
-  - {fileID: 11400000, guid: 262371f95553bea4288ec135faae5214, type: 2}
-  _hitbox: {fileID: 3195654395752132743}
-  _dashBar: {fileID: 0}
-  _perfectParryFrame: {fileID: 0}
-  _otherPlayer: {fileID: 0}
-  _playerSpeed: 7
-  _clankForce: 100
-  _dashForce: 10
-  _dashCooldown: 1
-  _dashTime: 0.2
 --- !u!114 &420786306830560700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,6 +265,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _healthBar: {fileID: 0}
   _freezeDuration: 0.2
+--- !u!114 &5579199154852900648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3555388760170741894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8671f962fb310a24d952ada5b70c102a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerID: 0
+  _animator: {fileID: 0}
+  _rb: {fileID: 0}
+  _spriteRenderer: {fileID: 0}
+  _attacksData:
+  - {fileID: 11400000, guid: 92e91e8ad5cf16e429e3469e55cc9303, type: 2}
+  - {fileID: 11400000, guid: e434ac1d6181a0944836db519a03c621, type: 2}
+  - {fileID: 11400000, guid: bb0cbbcfd07077a49afa4124532183c7, type: 2}
+  _playerSpeed: 10
 --- !u!1 &7770802639889903698
 GameObject:
   m_ObjectHideFlags: 0
