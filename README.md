@@ -1,0 +1,35 @@
+# FrameDataTool
+Frame data tool for a fighting game
+
+## My background
+
+I started to be really into programming 3/4 years ago. I learned Unity through a game design school where my professor and my friends showed me how permissive and free is a game engine. It maked me wanted to create experience for people with a strong game feel. I'm making this tool because I'm a big fan of fighting games and I've always wanted to make one. I jumped into the project but I rapidly realise that I need some frame data tool because frame data is really centralizer for a fighting game. I also wanted to challenge myself, progress in programmation and share my code to be part and experience the programmation community.
+
+
+
+## The tool
+
+This project is frame data tool for a fighting style game. It contains an on 60 frames seconds update, a frame data UI that show the frames of the current attack and a calculation of the frame advantage of the attacks.
+
+### Requirements
+
+- Unity 2022.3.46f1
+- Any IDE
+
+### Installation
+
+- Download the package
+- Open it with Unity
+
+## Made with
+
+* Unity 2022.3.46f1
+* Visual Studio 2022 Community
+
+## Author
+
+* **Lucas TERRIER** _alias_ [@Lucul45](https://github.com/Lucul45)
+
+## License
+
+This project is licensed -MIT License see the file [LICENSE.md](LICENSE.md) for more information.
