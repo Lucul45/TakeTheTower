@@ -29,20 +29,19 @@ public class HurtState : APlayerState
         _playerController.ResetCombo();
         _animator.SetBool("IsHurt", true);
         // Take damage
-        //_playerHealth.TakeDamage(AttackHitten.AttackDamage);
+        _playerHealth.TakeDamage(_opponent.CurrentAttack.AttackDamage);
         // Freeze the screen a few time to make the hits seem more impactful
         FreezeFrameManager.Instance.StartCoroutine(FreezeFrameManager.Instance.Freeze());
     }
 
     public override void Exit()
     {
-        // Take damage
-        _playerHealth.TakeDamage(AttackHitten.AttackDamage);
         _animator.SetBool("IsHurt", false);
     }
 
-    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController playerController, PlayerHealth playerHealth)
+    public override void Init(PlayerController opponent, PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController playerController, PlayerHealth playerHealth)
     {
+        _opponent = opponent;
         _stateManager = stateManager;
         _animator = animator;
         _spriteRenderer = spriteRenderer;
@@ -61,7 +60,7 @@ public class HurtState : APlayerState
                 _stateManager.ChangeStateP1(EPlayerState.DEAD);
             }
             // If the frame on the current is greater or equal than hitstun, then change state to idle
-            if (StateFrameP1 >= (int)(AttackHitten.Clip.length * 60) - _hitAttackFrame + AttackHitten.AdvantageFrames)
+            if (StateFrameP1 >= (int)(_opponent.CurrentAttack.Clip.length * 60) - _hitAttackFrame + _opponent.CurrentAttack.AdvantageFrames)
             {
                 _stateManager.ChangeStateP1(EPlayerState.IDLE);
             }
@@ -74,7 +73,7 @@ public class HurtState : APlayerState
                 _stateManager.ChangeStateP2(EPlayerState.DEAD);
             }
             // If the frame on the current is greater or equal than hitstun, then change state to idle
-            if (StateFrameP2 >= (int)(AttackHitten.Clip.length * 60) - _hitAttackFrame + AttackHitten.AdvantageFrames)
+            if (StateFrameP2 >= (int)(_opponent.CurrentAttack.Clip.length * 60) - _hitAttackFrame + _opponent.CurrentAttack.AdvantageFrames)
             {
                 _stateManager.ChangeStateP2(EPlayerState.IDLE);
             }

@@ -23,8 +23,9 @@ public class MoveState : APlayerState
         _playerController.AttackPressed -= Attack;
     }
 
-    public override void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController playerController, PlayerHealth playerHealth)
+    public override void Init(PlayerController opponent, PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController playerController, PlayerHealth playerHealth)
     {
+        _opponent = opponent;
         _stateManager = stateManager;
         _animator = animator;
         _spriteRenderer = spriteRenderer;

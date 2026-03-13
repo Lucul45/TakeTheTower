@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class APlayerState
 {
+    protected PlayerController _opponent;
     protected PlayerStateMachineManager _stateManager;
     protected Animator _animator;
     protected SpriteRenderer _spriteRenderer;
@@ -45,10 +46,14 @@ public abstract class APlayerState
     public AttackData AttackHitten
     {
         get { return _attackHitten; }
-        set {  _attackHitten = value; }
+        set 
+        {
+            Debug.Log($"{this.GetType().Name} valeur precedente{_attackHitten} valeur nouvelle {value}");
+            _attackHitten = value;
+        }
     }
 
-    public abstract void Init(PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController _playerController, PlayerHealth playerHealth);
+    public abstract void Init(PlayerController opponent, PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController playerController, PlayerHealth playerHealth);
 
     public abstract void Enter();
 

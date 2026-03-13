@@ -10,13 +10,10 @@ public class AttackDetection : MonoBehaviour
         if (collision.tag == "Player2")
         {
             PlayerStateMachineManager.Instance.ChangeStateP2(EPlayerState.HURT);
-            PlayerStateMachineManager.Instance.CurrentStateP2.AttackHitten = GetComponentInParent<PlayerController>().CurrentAttack;
-            Debug.Log(GetComponentInParent<PlayerController>().CurrentAttack.AttackDamage);
         }
         else if (collision.tag == "Player1")
         {
             PlayerStateMachineManager.Instance.ChangeStateP1(EPlayerState.HURT);
-            PlayerStateMachineManager.Instance.CurrentStateP1.AttackHitten = GetComponentInParent<PlayerController>().CurrentAttack;
         }
         else if (collision.tag == "Tower")
         {

@@ -130,11 +130,11 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
 
         foreach (KeyValuePair<EPlayerState, APlayerState> state in _statesP1)
         {
-            state.Value.Init(this, _player1.Animator, _player1.SpriteRenderer, _player1.Rb, _player1, _player1.PlayerHealth);
+            state.Value.Init(_player2, this, _player1.Animator, _player1.SpriteRenderer, _player1.Rb, _player1, _player1.PlayerHealth);
         }
         foreach (KeyValuePair<EPlayerState, APlayerState> state in _statesP2)
         {
-            state.Value.Init(this, _player2.Animator, _player2.SpriteRenderer, _player2.Rb, _player2, _player2.PlayerHealth);
+            state.Value.Init(_player1, this, _player2.Animator, _player2.SpriteRenderer, _player2.Rb, _player2, _player2.PlayerHealth);
         }
         _currentStateP1 = EPlayerState.IDLE;
         _currentStateP2 = EPlayerState.IDLE;
