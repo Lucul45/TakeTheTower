@@ -1457,7 +1457,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.00000014901161, y: 0.8900006, z: -12}
+  m_LocalPosition: {x: 0.00000020861626, y: -1.4999995, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5922,7 +5922,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6032529101743062088, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.56
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 6032529101743062088, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6257,7 +6257,7 @@ Transform:
   m_GameObject: {fileID: 2117881321}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.00000035762787, y: 0.8900006, z: -12}
+  m_LocalPosition: {x: 0.00000047683716, y: -1.4999995, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6312,7 +6312,7 @@ Transform:
   m_GameObject: {fileID: 2128607189}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.6099999, z: -2}
+  m_LocalPosition: {x: 0, y: -4, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7061,7 +7061,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6032529101743062088, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.66
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 6032529101743062088, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7100,7 +7100,7 @@ PrefabInstance:
       value: Capsule
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 1902538222313046845, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
