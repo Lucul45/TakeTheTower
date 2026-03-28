@@ -11,6 +11,7 @@ public enum EPlayerState
 {
     IDLE,
     MOVE,
+    JUMPSTART,
     JUMP,
     AIRBASE,
     AIRMOVE,
@@ -120,6 +121,7 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         _statesP1 = new Dictionary<EPlayerState, APlayerState>();
         _statesP1.Add(EPlayerState.IDLE, new IdleState());
         _statesP1.Add(EPlayerState.MOVE, new MoveState());
+        _statesP1.Add(EPlayerState.JUMPSTART, new JumpStartState());
         _statesP1.Add(EPlayerState.JUMP, new JumpState());
         _statesP1.Add(EPlayerState.AIRBASE, new AirBaseState());
         _statesP1.Add(EPlayerState.AIRMOVE, new AirMoveState());
@@ -130,6 +132,7 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         _statesP2 = new Dictionary<EPlayerState, APlayerState>();
         _statesP2.Add(EPlayerState.IDLE, new IdleState());
         _statesP2.Add(EPlayerState.MOVE, new MoveState());
+        _statesP2.Add(EPlayerState.JUMPSTART, new JumpStartState());
         _statesP2.Add(EPlayerState.JUMP, new JumpState());
         _statesP2.Add(EPlayerState.AIRBASE, new AirBaseState());
         _statesP2.Add(EPlayerState.AIRMOVE, new AirMoveState());

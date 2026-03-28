@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpState : APlayerState
+public class JumpStartState : APlayerState
 {
     public override void Enter()
     {
@@ -14,15 +14,11 @@ public class JumpState : APlayerState
         {
             StateFrameP2 = 0;
         }
-        _playerController.CanJump = false;
-        _playerController.Jump(_playerController.IsFullHop);
-        _animator.SetBool("IsJumping", true);
     }
 
     public override void Exit()
     {
-        _playerController.CanJump = true;
-        _animator.SetBool("IsJumping", false);
+        _playerController.IsFullHop = _playerController.IsFullHopping();
     }
 
     public override void Init(PlayerController opponent, PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController playerController, PlayerHealth playerHealth)
@@ -41,25 +37,17 @@ public class JumpState : APlayerState
         if (_playerController.PlayerID == 1)
         {
             StateFrameP1++;
-            if (_playerHealth.CurrentHealth <= 0)
+            if (StateFrameP1 >= 5)
             {
-                _stateManager.ChangeStateP1(EPlayerState.DEAD);
-            }
-            else if (!_playerController.IsGrounded())
-            {
-                _stateManager.ChangeStateP1(EPlayerState.AIRBASE);
+                _stateManager.ChangeStateP1(EPlayerState.JUMP);
             }
         }
         else if (_playerController.PlayerID == 2)
         {
             StateFrameP2++;
-            if (_playerHealth.CurrentHealth <= 0)
+            if (StateFrameP2 >= 5)
             {
-                _stateManager.ChangeStateP2(EPlayerState.DEAD);
-            }
-            else if (!_playerController.IsGrounded())
-            {
-                _stateManager.ChangeStateP2(EPlayerState.AIRBASE);
+                _stateManager.ChangeStateP2(EPlayerState.JUMP);
             }
         }
         _animator.SetBool("IsGrounded", _playerController.IsGrounded());

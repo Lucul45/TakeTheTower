@@ -34,6 +34,11 @@ public class AirBaseState : APlayerState
 
     public override void Update()
     {
+        // if the player inputs down at the moment the character is at the top of its jump or less then you can fast fall
+        if (_playerController.IsFastFalling)
+        {
+            _playerController.FastFall();
+        }
         if (_playerController.PlayerID == 1)
         {
             StateFrameP1++;
@@ -43,6 +48,7 @@ public class AirBaseState : APlayerState
             }
             else if (_playerController.IsGrounded())
             {
+                _playerController.IsFastFalling = false;
                 _stateManager.ChangeStateP1(EPlayerState.IDLE);
             }
             else if (_playerController.MovementInput != Vector2.zero && _stateManager.EnumCurrentStateP1 != EPlayerState.AIRMOVE)
@@ -59,6 +65,7 @@ public class AirBaseState : APlayerState
             }
             else if (_playerController.IsGrounded())
             {
+                _playerController.IsFastFalling = false;
                 _stateManager.ChangeStateP2(EPlayerState.IDLE);
             }
             else if (_playerController.MovementInput != Vector2.zero && _stateManager.EnumCurrentStateP2 != EPlayerState.AIRMOVE)

@@ -18,13 +18,25 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerHealth _playerHealth;
     [SerializeField] private AttackData[] _attacksData;
 
+    [Header("Controller Settings")]
+    [SerializeField] private float _flickThreshold = -0.7f; // Seuil pour valider le bas
+    [SerializeField] private float _neutralZone = -0.2f;   // Seuil pour considérer le stick au centre
+
     [SerializeField] private float _playerSpeed = 10f;
-    [SerializeField] private float _playerAirSpeed = 5f;
+    [SerializeField] private float _playerAirForce = 50f;
+    [SerializeField] private float _fallMultiplier = 10f;
     private Vector2 _movementInput = Vector2.zero;
 
     [SerializeField] private LayerMask _groundLayer;
-    [SerializeField] private float _playerJumpForce = 10f;
+    [SerializeField] private float _shortHopForce = 5f;
+    [SerializeField] private float _fullHopForce = 10f;
     private bool _canJump = true;
+    private bool _isFullHop = false;
+    private uint _jumpPressedOnFrame = 0;
+    private uint _jumpReleasedOnFrame = 0;
+    private bool _isFastFalling = false;
+    private bool _isDownPressedThisFrame = false;
+    private float _previousYInput = 0f;
 
     private AttackData _currentAttack = null;
     private bool _canAttack = true;
@@ -70,6 +82,20 @@ public class PlayerController : MonoBehaviour
     {
         get { return _canJump; }
         set { _canJump = value; }
+    }
+    public bool IsFullHop
+    {
+        get { return _isFullHop; }
+        set { _isFullHop = value; }
+    }
+    public bool IsFastFalling
+    {
+        get { return _isFastFalling; }
+        set { _isFastFalling = value; }
+    }
+    public bool IsDownPressedThisFrame
+    {
+        get { return _isDownPressedThisFrame; }
     }
     public AttackData CurrentAttack
     {
@@ -133,7 +159,21 @@ public class PlayerController : MonoBehaviour
 
     public void GetMovementInput(InputAction.CallbackContext context)
     {
-        _movementInput = context.ReadValue<Vector2>();
+        Vector2 currentInput = context.ReadValue<Vector2>();
+
+        // DETECTION DU FLICK ADAPTÉE
+        // On vérifie si le stick était "au dessus de la zone neutre" 
+        // et qu'il vient de "plonger" sous le seuil de flick
+        if (_previousYInput > _neutralZone && currentInput.y <= _flickThreshold)
+        {
+            if (!IsGrounded() && _rb.velocity.y <= 1f)
+            {
+                IsFastFalling = true;
+            }
+        }
+
+        _previousYInput = currentInput.y;
+        _movementInput = currentInput;
     }
 
     public void GetJumpInput(InputAction.CallbackContext context)
@@ -141,6 +181,12 @@ public class PlayerController : MonoBehaviour
         if (_jumpPressed != null && context.started)
         {
             _jumpPressed();
+            _jumpPressedOnFrame = FrameManager.Instance.ElapsedFrames;
+            _jumpReleasedOnFrame = 0;
+        }
+        if (context.canceled)
+        {
+            _jumpReleasedOnFrame = FrameManager.Instance.ElapsedFrames;
         }
     }
 
@@ -171,12 +217,26 @@ public class PlayerController : MonoBehaviour
 
     public void AirMove(Vector2 dir)
     {
-        _rb.velocity = new Vector2(dir.x * _playerAirSpeed, _rb.velocity.y);
+        _rb.AddForce(new Vector2(dir.x * _playerAirForce, 0), ForceMode2D.Force);
     }
 
-    public void Jump()
+    public void Jump(bool isFullHop)
     {
-        _rb.velocity = new Vector2(_rb.velocity.x, _playerJumpForce);
+        float jumpForce = 0;
+        if (isFullHop)
+        {
+            jumpForce = _fullHopForce;
+        }
+        else
+        {
+            jumpForce = _shortHopForce;
+        }
+        _rb.AddForce(new Vector2(0, Vector2.up.y * jumpForce), ForceMode2D.Impulse);
+    }
+
+    public void FastFall()
+    {
+        _rb.AddForce(Vector2.down * _fallMultiplier, ForceMode2D.Impulse);
     }
 
     /// <summary>
@@ -205,5 +265,10 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(bounds.center - new Vector3(bounds.extents.x, 0), Vector2.down * (bounds.extents.y + 0.2f), rayColor);
         Debug.DrawRay(bounds.center - new Vector3(bounds.extents.x, bounds.extents.y + 0.2f), Vector2.right * (bounds.size.x), rayColor);
         return hit;
+    }
+
+    public bool IsFullHopping()
+    {
+        return _jumpReleasedOnFrame - _jumpPressedOnFrame >= 5;
     }
 }

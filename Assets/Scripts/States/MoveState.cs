@@ -89,14 +89,14 @@ public class MoveState : APlayerState
         {
             if (_playerController.CanJump && _playerController.IsGrounded())
             {
-                _stateManager.ChangeStateP1(EPlayerState.JUMP);
+                _stateManager.ChangeStateP1(EPlayerState.JUMPSTART);
             }
         }
         else if (_playerController.PlayerID == 2)
         {
             if (_playerController.CanJump && _playerController.IsGrounded())
             {
-                _stateManager.ChangeStateP2(EPlayerState.JUMP);
+                _stateManager.ChangeStateP2(EPlayerState.JUMPSTART);
             }
         }
     }

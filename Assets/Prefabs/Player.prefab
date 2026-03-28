@@ -287,10 +287,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e434ac1d6181a0944836db519a03c621, type: 2}
   - {fileID: 11400000, guid: bb0cbbcfd07077a49afa4124532183c7, type: 2}
   _playerSpeed: 10
+  _playerAirForce: 10
+  _fallMultiplier: 5
   _groundLayer:
     serializedVersion: 2
     m_Bits: 8192
-  _playerJumpForce: 10
+  _shortHopForce: 5
+  _fullHopForce: 10
 --- !u!1 &7770802639889903698
 GameObject:
   m_ObjectHideFlags: 0
