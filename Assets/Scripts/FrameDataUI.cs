@@ -26,13 +26,21 @@ public class FrameDataUI : MonoBehaviour
             if (_p1.CurrentAttack != null)
             {
                 _startupFrameText.text = "Start up frames : " + _p1.CurrentAttack.AttackStartup;
-                _activeFrameText.text = "Active frames : " + (_p1.CurrentAttack.AttackStartup + 1) + "-" + (_p1.CurrentAttack.AttackTotalTime - _p1.CurrentAttack.AttackCooldown);
-                _cooldownFrameText.text = "Ending frames : " + (_p1.CurrentAttack.AttackTotalTime);
+                _activeFrameText.text = "Active frames : " + (_p1.CurrentAttack.AttackStartup + 1) + "-" + (_p1.CurrentAttack.AttackTotalTime - _p1.CurrentAttack.AttackRecovery);
+                _cooldownFrameText.text = "Recovery frames : " + (_p1.CurrentAttack.AttackRecovery);
             }
         }
+
         // Getting the last frames of the attack and of the hurting state
         _p1EndFrame = (int)_playerStateMachineManager.LastAttackToIdleFrameP1;
         _p2EndFrame = (int)_playerStateMachineManager.LastHurtToIdleFrameP2;
+
+        // NOUVEAU : Si l'une des valeurs est à 0 (nouvelle attaque ou reset), on réarme le calcul
+        if (_p1EndFrame == 0 || _p2EndFrame == 0)
+        {
+            _advantageCalculated = false;
+        }
+
         // security to avoid errors and making sure both end frames are updated
         if (_p1EndFrame > 0 && _p2EndFrame > 0 && !_advantageCalculated)
         {

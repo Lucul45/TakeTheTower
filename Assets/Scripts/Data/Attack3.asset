@@ -17,12 +17,10 @@ MonoBehaviour:
   _animationName: Attack3
   _animatorCondition: IsAttacking3
   _attackDamage: 12
-  _attackTotalTime: 51
-  _attackStartup: 7
-  _attackCooldown: 37
+  _attackTotalTime: 15
+  _attackStartup: 9
+  _attackRecovery: 3
   _advantageFrames: 30
   _knockbackForce: 50
   _knockbackDirection: {x: 1, y: 1}
-  _canComboFrames:
-  - {fileID: 21300000, guid: f84861429c5326242901a713f270e9fc, type: 3}
-  _endFrame: {fileID: 21300000, guid: def8ca23742459c4090e3c7a265f8f8c, type: 3}
+  _canComboFrames: 0b0000000f000000

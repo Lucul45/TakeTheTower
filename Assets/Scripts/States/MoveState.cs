@@ -7,14 +7,7 @@ public class MoveState : APlayerState
 {
     public override void Enter()
     {
-        if (_playerController.PlayerID == 1)
-        {
-            StateFrameP1 = 0;
-        }
-        else if (_playerController.PlayerID == 2)
-        {
-            StateFrameP2 = 0;
-        }
+        base.Enter();
         _playerController.JumpPressed += Jump;
         _playerController.AttackPressed += Attack;
     }
@@ -38,31 +31,14 @@ public class MoveState : APlayerState
 
     public override void Update()
     {
-        if (_playerController.PlayerID == 1)
+        if (_playerHealth.CurrentHealth <= 0)
         {
-            StateFrameP1++;
-            if (_playerHealth.CurrentHealth <= 0)
-            {
-                _stateManager.ChangeStateP1(EPlayerState.DEAD);
-            }
-            // if we don't move, change to idle
-            else if (_playerController.MovementInput.x == 0)
-            {
-                _stateManager.ChangeStateP1(EPlayerState.IDLE);
-            }
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
         }
-        else if (_playerController.PlayerID == 2)
+        // if we don't move, change to idle
+        else if (_playerController.MovementInput.x == 0)
         {
-            StateFrameP2++;
-            if (_playerHealth.CurrentHealth <= 0)
-            {
-                _stateManager.ChangeStateP2(EPlayerState.DEAD);
-            }
-            // if we don't move, change to idle
-            else if (_playerController.MovementInput.x == 0)
-            {
-                _stateManager.ChangeStateP2(EPlayerState.IDLE);
-            }
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.IDLE);
         }
         _animator.SetBool("IsGrounded", _playerController.IsGrounded());
         _playerController.Move(_playerController.MovementInput);
@@ -72,32 +48,15 @@ public class MoveState : APlayerState
     {
         if (_playerController.CanAttack)
         {
-            if (_playerController.PlayerID == 1)
-            {
-                _stateManager.ChangeStateP1(EPlayerState.JAB);
-            }
-            else if (_playerController.PlayerID == 2)
-            {
-                _stateManager.ChangeStateP2(EPlayerState.JAB);
-            }
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.JAB);
         }
     }
 
     private void Jump()
     {
-        if (_playerController.PlayerID == 1)
+        if (_playerController.CanJump && _playerController.IsGrounded())
         {
-            if (_playerController.CanJump && _playerController.IsGrounded())
-            {
-                _stateManager.ChangeStateP1(EPlayerState.JUMPSTART);
-            }
-        }
-        else if (_playerController.PlayerID == 2)
-        {
-            if (_playerController.CanJump && _playerController.IsGrounded())
-            {
-                _stateManager.ChangeStateP2(EPlayerState.JUMPSTART);
-            }
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.JUMPSTART);
         }
     }
 }

@@ -6,14 +6,7 @@ public class JumpState : APlayerState
 {
     public override void Enter()
     {
-        if (_playerController.PlayerID == 1)
-        {
-            StateFrameP1 = 0;
-        }
-        else if (_playerController.PlayerID == 2)
-        {
-            StateFrameP2 = 0;
-        }
+        base.Enter();
         _playerController.CanJump = false;
         _playerController.Jump(_playerController.IsFullHop);
         _animator.SetBool("IsJumping", true);
@@ -38,29 +31,14 @@ public class JumpState : APlayerState
 
     public override void Update()
     {
-        if (_playerController.PlayerID == 1)
+        base.Update();
+        if (_playerHealth.CurrentHealth <= 0)
         {
-            StateFrameP1++;
-            if (_playerHealth.CurrentHealth <= 0)
-            {
-                _stateManager.ChangeStateP1(EPlayerState.DEAD);
-            }
-            else if (!_playerController.IsGrounded())
-            {
-                _stateManager.ChangeStateP1(EPlayerState.AIRBASE);
-            }
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
         }
-        else if (_playerController.PlayerID == 2)
+        else if (!_playerController.IsGrounded())
         {
-            StateFrameP2++;
-            if (_playerHealth.CurrentHealth <= 0)
-            {
-                _stateManager.ChangeStateP2(EPlayerState.DEAD);
-            }
-            else if (!_playerController.IsGrounded())
-            {
-                _stateManager.ChangeStateP2(EPlayerState.AIRBASE);
-            }
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.AIRBASE);
         }
         _animator.SetBool("IsGrounded", _playerController.IsGrounded());
     }

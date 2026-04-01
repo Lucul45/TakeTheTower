@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Attack", menuName = "AttackData")]
@@ -14,15 +15,14 @@ public class AttackData : ScriptableObject
     [SerializeField] private int _attackDamage;
     [SerializeField] private int _attackTotalTime;
     [SerializeField] private int _attackStartup;
-    [SerializeField] private int _attackCooldown;
-    [SerializeField] private float _advantageFrames;
+    [SerializeField] private int _attackRecovery;
+    [SerializeField] private int _advantageFrames;
 
     [Header("Knockback Settings")]
     [SerializeField] private float _knockbackForce;
     [SerializeField] private Vector2 _knockbackDirection = new Vector2(1, 1);
 
-    [SerializeField] private Sprite[] _canComboFrames;
-    [SerializeField] private Sprite _endFrame;
+    [SerializeField] private int[] _canComboFrames = new int[2];
 
     public int AttackID
     {
@@ -52,11 +52,11 @@ public class AttackData : ScriptableObject
     {
         get { return _attackStartup; }
     }
-    public int AttackCooldown
+    public int AttackRecovery
     {
-        get { return _attackCooldown; }
+        get { return _attackRecovery; }
     }
-    public float AdvantageFrames
+    public int AdvantageFrames
     {
         get { return _advantageFrames; }
     }
@@ -68,12 +68,85 @@ public class AttackData : ScriptableObject
     {
         get { return _knockbackDirection.normalized; }
     }
-    public Sprite[] CanComboFrames
+    public int[] CanComboFrames
     {
         get { return _canComboFrames; }
     }
-    public Sprite EndFrame
+
+    private void OnValidate()
     {
-        get { return _endFrame; }
+        if (AttackID < 0)
+        {
+            Debug.LogWarning(name + " Negative Attack ID !");
+        }
+        if (Clip == null)
+        {
+            Debug.LogWarning(name + " No Animation clip !");
+        }
+        if (AnimationName == string.Empty)
+        {
+            Debug.LogWarning(name + " No Animation name !");
+        }
+        if (AnimatorCondition == string.Empty)
+        {
+            Debug.LogWarning(name + " No Animator condition !");
+        }
+        if (AttackDamage < 0)
+        {
+            Debug.LogWarning(name + " Negative Attack Damage !");
+        }
+        if (Clip != null && AttackTotalTime + 1 != Mathf.RoundToInt(Clip.length * 60))
+        {
+            Debug.LogWarning(name + " Attack total time is not equal to clip length !");
+        }
+        if (AttackTotalTime < 0)
+        {
+            Debug.LogWarning(name + " Negative Attack total time !");
+        }
+        if (AttackStartup < 0)
+        {
+            Debug.LogWarning(name + " Negative Attack startup !");
+        }
+        if (AttackRecovery < 0)
+        {
+            Debug.LogWarning(name + " Negative Attack recovery !");
+        }
+        if (CanComboFrames[0] < 0)
+        {
+            Debug.LogWarning(name + " Negative Combo Frames start !");
+        }
+        if (CanComboFrames[1] < 0)
+        {
+            Debug.LogWarning(name + " Negative Combo Frames end !");
+        }
+        if (CanComboFrames[0] > CanComboFrames[1])
+        {
+            Debug.LogWarning(name + " Combo Frames start is superior to end !");
+        }
+        #if UNITY_EDITOR
+        AddEventsToClip(Clip, (float)AttackStartup / 60, "Attack startup", (float)(AttackTotalTime - AttackRecovery) / 60, "Attack recovery");
+        #endif
     }
+    #if UNITY_EDITOR
+    public void AddEventsToClip(AnimationClip clip, float timeInSeconds, string functionName, float timeInSeconds2, string functionName2)
+    {
+        AnimationEvent[] animationEvents = new AnimationEvent[2];
+
+        AnimationEvent animEvent = new AnimationEvent();
+        AnimationEvent animEvent2 = new AnimationEvent();
+        animEvent.time = timeInSeconds;
+        animEvent2.time = timeInSeconds2;
+
+        animationEvents.SetValue(animEvent, 0);
+        animationEvents.SetValue(animEvent2, 1);
+
+        // Event name displayed
+        animationEvents[0].functionName = functionName;
+        animationEvents[1].functionName = functionName2;
+
+        AnimationUtility.SetAnimationEvents(clip, animationEvents);
+
+        Debug.Log($"Event '{functionName}' add to {timeInSeconds}s on the {clip.name} clip");
+    }
+    #endif
 }

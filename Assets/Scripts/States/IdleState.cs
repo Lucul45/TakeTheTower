@@ -7,14 +7,7 @@ public class IdleState : APlayerState
 {
     public override void Enter()
     {
-        if (_playerController.PlayerID == 1)
-        {
-            StateFrameP1 = 0;
-        }
-        else if (_playerController.PlayerID == 2)
-        {
-            StateFrameP2 = 0;
-        }
+        base.Enter();
         _playerController.JumpPressed += Jump;
         _playerController.AttackPressed += Attack;
     }
@@ -38,68 +31,36 @@ public class IdleState : APlayerState
 
     public override void Update()
     {
-        if (_playerController.PlayerID == 1)
+        base.Update();
+        if (_playerHealth.CurrentHealth <= 0)
         {
-            StateFrameP1++;
-            if (_playerHealth.CurrentHealth <= 0)
-            {
-                _stateManager.ChangeStateP1(EPlayerState.DEAD);
-            }
-            // If the input isn't neutral
-            else if (_playerController.MovementInput.x != 0f)
-            {
-                _stateManager.ChangeStateP1(EPlayerState.MOVE);
-            }
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
         }
-        else if ( _playerController.PlayerID == 2)
+        // If the input isn't neutral
+        else if (_playerController.MovementInput.x != 0f)
         {
-            StateFrameP2++;
-            if (_playerHealth.CurrentHealth <= 0)
-            {
-                _stateManager.ChangeStateP2(EPlayerState.DEAD);
-            }
-            // If the input isn't neutral
-            else if (_playerController.MovementInput.x != 0f)
-            {
-                _stateManager.ChangeStateP2(EPlayerState.MOVE);
-            }
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.MOVE);
         }
-        _animator.SetBool("IsGrounded", _playerController.IsGrounded());
+        else if (!_playerController.IsGrounded())
+        {
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.AIRBASE);
+        }
+            _animator.SetBool("IsGrounded", _playerController.IsGrounded());
     }
 
     private void Attack()
     {
-        if (_playerController.PlayerID == 1)
+        if (_playerController.CanAttack)
         {
-            if (_playerController.CanAttack)
-            {
-                _stateManager.ChangeStateP1(EPlayerState.JAB);
-            }
-        }
-        else if (_playerController.PlayerID == 2)
-        {
-            if (_playerController.CanAttack)
-            {
-                _stateManager.ChangeStateP2(EPlayerState.JAB);
-            }
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.JAB);
         }
     }
 
     private void Jump()
     {
-        if (_playerController.PlayerID == 1)
+        if (_playerController.CanJump && _playerController.IsGrounded())
         {
-            if (_playerController.CanJump && _playerController.IsGrounded())
-            {
-                _stateManager.ChangeStateP1(EPlayerState.JUMPSTART);
-            }
-        }
-        else if (_playerController.PlayerID == 2)
-        {
-            if (_playerController.CanJump && _playerController.IsGrounded())
-            {
-                _stateManager.ChangeStateP2(EPlayerState.JUMPSTART);
-            }
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.JUMPSTART);
         }
     }
 }

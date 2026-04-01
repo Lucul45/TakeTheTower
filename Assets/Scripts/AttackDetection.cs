@@ -9,11 +9,11 @@ public class AttackDetection : MonoBehaviour
         GetComponentInParent<PlayerController>().IsHitting = true;
         if (collision.tag == "Player2")
         {
-            PlayerStateMachineManager.Instance.ChangeStateP2(EPlayerState.HURT);
+            PlayerStateMachineManager.Instance.ChangeState(2, EPlayerState.HURT);
         }
         else if (collision.tag == "Player1")
         {
-            PlayerStateMachineManager.Instance.ChangeStateP1(EPlayerState.HURT);
+            PlayerStateMachineManager.Instance.ChangeState(1, EPlayerState.HURT);
         }
         else if (collision.tag == "Tower")
         {

@@ -9,14 +9,7 @@ public class JabState : APlayerState
 {
     public override void Enter()
     {
-        if (_playerController.PlayerID == 1)
-        {
-            StateFrameP1 = 0;
-        }
-        else if (_playerController.PlayerID == 2)
-        {
-            StateFrameP2 = 0;
-        }
+        base.Enter();
         FrameManager.Instance.FrameDataUI.ResetAdvantageCalculated();
         // Getting the current attack based on which index we are on
         foreach (AttackData a in _playerController.AttacksData)
@@ -51,26 +44,16 @@ public class JabState : APlayerState
 
     public override void Update()
     {
-        if (_playerController.PlayerID == 1)
+        base.Update();
+        UnityEngine.Debug.Log(_playerController.CurrentAttack.Clip.length * 60);
+        if (_playerHealth.CurrentHealth <= 0)
         {
-            StateFrameP1++;
-            if (_playerHealth.CurrentHealth <= 0)
-            {
-                _stateManager.ChangeStateP1(EPlayerState.DEAD);
-            }
-        }
-        else if (_playerController.PlayerID == 2)
-        {
-            StateFrameP2++;
-            if (_playerHealth.CurrentHealth <= 0)
-            {
-                _stateManager.ChangeStateP2(EPlayerState.DEAD);
-            }
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
         }
         // Making sure the character can't move while attacking
         _playerController.Move(Vector2.zero);
         // If the character attack is on a frame where he can combo
-        if (_playerController.CurrentAttack.CanComboFrames.Contains<Sprite>(_spriteRenderer.sprite))
+        if (StateFrame >= _playerController.CurrentAttack.CanComboFrames[0] && StateFrame <= _playerController.CurrentAttack.CanComboFrames[1])
         {
             _playerController.ShouldCombo = true;
         }
@@ -78,40 +61,21 @@ public class JabState : APlayerState
         {
             _playerController.ShouldCombo = false;
         }
-        if (_playerController.PlayerID == 1)
+        // If the current state frame is greater or equal to the clip length in frames
+        if (StateFrame >= _playerController.CurrentAttack.AttackTotalTime)
         {
-            // If the current state frame is greater or equal to the clip length in frames
-            if (StateFrameP1 >= _playerController.CurrentAttack.Clip.length * 60)
-            {
-                _playerController.ResetCombo();
-                _stateManager.ChangeStateP1(EPlayerState.IDLE);
-            }
-        }
-        else
-        {
-            // If the current state frame is greater or equal to the clip length in frames
-            if (StateFrameP2 >= _playerController.CurrentAttack.Clip.length * 60)
-            {
-                _playerController.ResetCombo();
-                _stateManager.ChangeStateP2(EPlayerState.IDLE);
-            }
+            _playerController.ResetCombo();
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.IDLE);
         }
     }
 
 
     private void Attack()
     {
-        if (_playerController.ShouldCombo && _playerController.AttackIndex < 3)
+        if (_playerController.ShouldCombo && _playerController.AttackIndex < _playerController.AttacksData.Length)
         {
             _playerController.AttackIndex++;
-            if (_playerController.PlayerID == 1)
-            {
-                _stateManager.ChangeStateP1(EPlayerState.JAB);
-            }
-            else
-            {
-                _stateManager.ChangeStateP2(EPlayerState.JAB);
-            }
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.JAB);
         }
     }
 }

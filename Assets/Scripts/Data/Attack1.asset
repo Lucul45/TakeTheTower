@@ -19,9 +19,8 @@ MonoBehaviour:
   _attackDamage: 8
   _attackTotalTime: 12
   _attackStartup: 6
-  _attackCooldown: 3
+  _attackRecovery: 3
   _advantageFrames: 10
   _knockbackForce: 1
-  _canComboFrames:
-  - {fileID: 21300000, guid: cbb06e44dc7cda04f9f60f168b8e4b7c, type: 3}
-  _endFrame: {fileID: 21300000, guid: a183bf885cff1a64b85f7c0c2a05893b, type: 3}
+  _knockbackDirection: {x: 1, y: 1}
+  _canComboFrames: 080000000c000000

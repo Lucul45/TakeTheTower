@@ -6,14 +6,7 @@ public class AirBaseState : APlayerState
 {
     public override void Enter()
     {
-        if (_playerController.PlayerID == 1)
-        {
-            StateFrameP1 = 0;
-        }
-        else if (_playerController.PlayerID == 2)
-        {
-            StateFrameP2 = 0;
-        }
+        base.Enter();
     }
 
     public override void Exit()
@@ -43,39 +36,18 @@ public class AirBaseState : APlayerState
         {
             _playerController.FastFall();
         }
-        if (_playerController.PlayerID == 1)
+        if (_playerHealth.CurrentHealth <= 0)
         {
-            StateFrameP1++;
-            if (_playerHealth.CurrentHealth <= 0)
-            {
-                _stateManager.ChangeStateP1(EPlayerState.DEAD);
-            }
-            else if (_playerController.IsGrounded())
-            {
-                _playerController.IsFastFalling = false;
-                _stateManager.ChangeStateP1(EPlayerState.IDLE);
-            }
-            else if (_playerController.MovementInput != Vector2.zero && _stateManager.EnumCurrentStateP1 != EPlayerState.AIRMOVE)
-            {
-                _stateManager.ChangeStateP1(EPlayerState.AIRMOVE);
-            }
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
         }
-        else if (_playerController.PlayerID == 2)
+        else if (_playerController.IsGrounded())
         {
-            StateFrameP2++;
-            if (_playerHealth.CurrentHealth <= 0)
-            {
-                _stateManager.ChangeStateP2(EPlayerState.DEAD);
-            }
-            else if (_playerController.IsGrounded())
-            {
-                _playerController.IsFastFalling = false;
-                _stateManager.ChangeStateP2(EPlayerState.IDLE);
-            }
-            else if (_playerController.MovementInput != Vector2.zero && _stateManager.EnumCurrentStateP2 != EPlayerState.AIRMOVE)
-            {
-                _stateManager.ChangeStateP2(EPlayerState.AIRMOVE);
-            }
+            _playerController.IsFastFalling = false;
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.IDLE);
+        }
+        else if (_playerController.MovementInput != Vector2.zero && _stateManager.EnumCurrentStateP1 != EPlayerState.AIRMOVE)
+        {
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.AIRMOVE);
         }
         _animator.SetBool("IsGrounded", _playerController.IsGrounded());
     }

@@ -6,24 +6,17 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class HurtState : APlayerState
 {
-    private uint _hitAttackFrame = 0;
+    private int _hitAttackFrame = 0;
     public override void Enter()
     {
-        if (_playerController.PlayerID == 1)
+        base.Enter();
+        if (_opponent.PlayerID == 1)
         {
-            StateFrameP1 = 0;
-        }
-        else if (_playerController.PlayerID == 2)
-        {
-            StateFrameP2 = 0;
-        }
-        if (FrameManager.Instance.PlayersActionFrames[FrameManager.Instance.ElapsedFrames][0].PlayerID != _playerController.PlayerID)
-        {
-            _hitAttackFrame = FrameManager.Instance.PlayersActionFrames[FrameManager.Instance.ElapsedFrames][0].StateFrame;
+            _hitAttackFrame = (int)PlayerStateMachineManager.Instance.CurrentStateP1.StateFrame;
         }
         else
         {
-            _hitAttackFrame = FrameManager.Instance.PlayersActionFrames[FrameManager.Instance.ElapsedFrames][1].StateFrame;
+            _hitAttackFrame = (int)PlayerStateMachineManager.Instance.CurrentStateP2.StateFrame;
         }
         FrameManager.Instance.FrameDataUI.ResetAdvantageCalculated();
         _playerController.ResetCombo();
@@ -54,32 +47,20 @@ public class HurtState : APlayerState
 
     public override void Update()
     {
-        if (_playerController.PlayerID == 1)
+        base.Update();
+
+        int hitstunDuration = _opponent.CurrentAttack.AttackTotalTime - _hitAttackFrame + _opponent.CurrentAttack.AdvantageFrames;
+
+        if (_playerHealth.CurrentHealth <= 0)
         {
-            StateFrameP1++;
-            if (_playerHealth.CurrentHealth <= 0)
-            {
-                _stateManager.ChangeStateP1(EPlayerState.DEAD);
-            }
-            // If the frame on the current is greater or equal than hitstun, then change state to idle
-            else if (StateFrameP1 >= (int)(_opponent.CurrentAttack.Clip.length * 60) - _hitAttackFrame + _opponent.CurrentAttack.AdvantageFrames)
-            {
-                _stateManager.ChangeStateP1(EPlayerState.IDLE);
-            }
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.DEAD);
         }
-        else if (_playerController.PlayerID == 2)
+        // If the frame on the current is greater or equal than hitstun, then change state to idle
+        else if (StateFrame >= hitstunDuration)
         {
-            StateFrameP2++;
-            if (_playerHealth.CurrentHealth <= 0)
-            {
-                _stateManager.ChangeStateP2(EPlayerState.DEAD);
-            }
-            // If the frame on the current is greater or equal than hitstun, then change state to idle
-            else if (StateFrameP2 >= (int)(_opponent.CurrentAttack.Clip.length * 60) - _hitAttackFrame + _opponent.CurrentAttack.AdvantageFrames)
-            {
-                _stateManager.ChangeStateP2(EPlayerState.IDLE);
-            }
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.IDLE);
         }
+
         _animator.SetBool("IsGrounded", _playerController.IsGrounded());
     }
 }

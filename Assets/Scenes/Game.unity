@@ -210,10 +210,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerP2_1
       objectReference: {fileID: 0}
-    - target: {fileID: 6629430916076976013, guid: 7af28f4eb08f18345b4004da832e8073, type: 3}
-      propertyPath: m_Layer
-      value: 14
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2745,10 +2741,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerP1_1
       objectReference: {fileID: 0}
-    - target: {fileID: 6629430916076976013, guid: 7af28f4eb08f18345b4004da832e8073, type: 3}
-      propertyPath: m_Layer
-      value: 14
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5253,10 +5245,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerP1_3
       objectReference: {fileID: 0}
-    - target: {fileID: 6629430916076976013, guid: 7af28f4eb08f18345b4004da832e8073, type: 3}
-      propertyPath: m_Layer
-      value: 14
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5632,10 +5620,6 @@ PrefabInstance:
     - target: {fileID: 6629430916076976013, guid: 7af28f4eb08f18345b4004da832e8073, type: 3}
       propertyPath: m_Name
       value: TowerP1_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6629430916076976013, guid: 7af28f4eb08f18345b4004da832e8073, type: 3}
-      propertyPath: m_Layer
-      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6317,7 +6301,7 @@ Transform:
   m_GameObject: {fileID: 2117881321}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0000003874302, y: -1.4999995, z: -12}
+  m_LocalPosition: {x: 0.00000047683716, y: -1.4999995, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6587,10 +6571,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerP2_2
       objectReference: {fileID: 0}
-    - target: {fileID: 6629430916076976013, guid: 7af28f4eb08f18345b4004da832e8073, type: 3}
-      propertyPath: m_Layer
-      value: 14
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6759,6 +6739,14 @@ PrefabInstance:
       objectReference: {fileID: 704682588}
     - target: {fileID: 5768830834744124177, guid: 2153be8c5ce38b74ab7ebcbd38322dff, type: 3}
       propertyPath: _player2
+      value: 
+      objectReference: {fileID: 569800628}
+    - target: {fileID: 5768830834744124177, guid: 2153be8c5ce38b74ab7ebcbd38322dff, type: 3}
+      propertyPath: _players.Array.data[0]
+      value: 
+      objectReference: {fileID: 704682588}
+    - target: {fileID: 5768830834744124177, guid: 2153be8c5ce38b74ab7ebcbd38322dff, type: 3}
+      propertyPath: _players.Array.data[1]
       value: 
       objectReference: {fileID: 569800628}
     - target: {fileID: 7691043845386750112, guid: 2153be8c5ce38b74ab7ebcbd38322dff, type: 3}

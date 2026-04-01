@@ -12,32 +12,18 @@ public abstract class APlayerState
     protected PlayerController _playerController;
     protected PlayerHealth _playerHealth;
 
-    protected uint _stateFrameP1 = 0;
-    protected uint _stateFrameP2 = 0;
+    protected uint _stateFrame = 0;
     protected AttackData _attackHitten;
 
     /// <summary>
     /// The number of frames during which player 1 remained in the current state.
     /// </summary>
-    protected uint StateFrameP1
+    public uint StateFrame
     {
-        get {  return _stateFrameP1; }
+        get {  return _stateFrame; }
         set 
         {  
-            _stateFrameP1 = value;
-            _stateManager.StateFrameP1 = _stateFrameP1;
-        }
-    }
-    /// <summary>
-    /// The number of frames during which player 2 remained in the current state.
-    /// </summary>
-    protected uint StateFrameP2
-    {
-        get { return _stateFrameP2; }
-        set
-        {
-            _stateFrameP2 = value;
-            _stateManager.StateFrameP2 = _stateFrameP2;
+            _stateFrame = value;
         }
     }
     /// <summary>
@@ -55,9 +41,15 @@ public abstract class APlayerState
 
     public abstract void Init(PlayerController opponent, PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController playerController, PlayerHealth playerHealth);
 
-    public abstract void Enter();
+    public virtual void Enter()
+    {
+        StateFrame = 0;
+    }
 
-    public abstract void Update();
+    public virtual void Update()
+    {
+        StateFrame++;
+    }
 
     public abstract void Exit();
 }

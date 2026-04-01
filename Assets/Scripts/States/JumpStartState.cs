@@ -6,14 +6,7 @@ public class JumpStartState : APlayerState
 {
     public override void Enter()
     {
-        if (_playerController.PlayerID == 1)
-        {
-            StateFrameP1 = 0;
-        }
-        else if (_playerController.PlayerID == 2)
-        {
-            StateFrameP2 = 0;
-        }
+        base.Enter();
     }
 
     public override void Exit()
@@ -34,21 +27,10 @@ public class JumpStartState : APlayerState
 
     public override void Update()
     {
-        if (_playerController.PlayerID == 1)
+        base.Update();
+        if (StateFrame >= 5)
         {
-            StateFrameP1++;
-            if (StateFrameP1 >= 5)
-            {
-                _stateManager.ChangeStateP1(EPlayerState.JUMP);
-            }
-        }
-        else if (_playerController.PlayerID == 2)
-        {
-            StateFrameP2++;
-            if (StateFrameP2 >= 5)
-            {
-                _stateManager.ChangeStateP2(EPlayerState.JUMP);
-            }
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.JUMP);
         }
         _animator.SetBool("IsGrounded", _playerController.IsGrounded());
     }
