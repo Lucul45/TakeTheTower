@@ -40,7 +40,8 @@ public class RunState : APlayerState
         {
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.IDLE);
         }
-        else if ((_rb.velocity.x < -0.1f && _playerController.MovementInput.x > 0.8f) || (_rb.velocity.x > 0.1f && _playerController.MovementInput.x < -0.8f))
+        // 
+        else if ((_rb.velocity.x < -0.1f && _playerController.MovementInput.x > 0.5f) || (_rb.velocity.x > 0.1f && _playerController.MovementInput.x < -0.5f))
         {
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.TURNAROUND);
         }

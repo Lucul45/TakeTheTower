@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _walkSpeed = 7f;
     [SerializeField] private float _runSpeed = 10f;
     [SerializeField] private float _dashForce = 20f;
+    [SerializeField] private float _turnaroundForce = 10f;
     [SerializeField] private float _fallMultiplier = 10f;
     private Vector2 _movementInput = Vector2.zero;
     /// <summary>
@@ -331,6 +332,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void ReverseRotation()
+    {
+        if (transform.rotation.y == 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        else if (transform.rotation.y == 180)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+    }
+
     /// <summary>
     /// Move the character based on a vector2 input. Also makes the character faced the right direction
     /// </summary>
@@ -351,6 +364,11 @@ public class PlayerController : MonoBehaviour
     {
         _rb.AddForce(new Vector2(Mathf.Sign(dir.x) * _dashForce, _rb.velocity.y), ForceMode2D.Impulse);
         FaceTheDirection(dir);
+    }
+
+    public void Turnaround(Vector2 dir)
+    {
+        _rb.AddForce(new Vector2(Mathf.Sign(dir.x) * _turnaroundForce, _rb.velocity.y), ForceMode2D.Force);
     }
 
     public void AirMove(Vector2 dir)
@@ -467,18 +485,6 @@ public class PlayerController : MonoBehaviour
         ApplyKnockback(finalKnockbackVector, currentInput);
 
         IsFastFalling = false;
-    }
-
-    public void ReverseRotation()
-    {
-        if (transform.rotation.y == 0)
-        {
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-        }
-        else if (transform.rotation.y == 180)
-        {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-        }
     }
 
     private void Bounce(Vector2 wallNormal, Vector2 incomingVelocity)

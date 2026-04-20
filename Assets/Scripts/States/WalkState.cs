@@ -43,6 +43,11 @@ public class WalkState : APlayerState
         {
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.IDLE);
         }
+        // if the velocity direction isn't the same as the input direction
+        else if ((_rb.velocity.x < -0.1f && _playerController.MovementInput.x > 0.8f) || (_rb.velocity.x > 0.1f && _playerController.MovementInput.x < -0.8f))
+        {
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.GROUNDSTART);
+        }
         _animator.SetBool("IsGrounded", _playerController.IsGrounded());
 
         _playerController.Walk(_playerController.MovementInput);

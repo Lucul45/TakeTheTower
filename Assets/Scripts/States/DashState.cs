@@ -37,6 +37,7 @@ public class DashState : APlayerState
     {
         base.Update();
 
+        // if the joystick changes direction
         if ((_playerController.TempMovementInput.x <= -0.8f && _playerController.MovementInput.x >= 0.8f) || (_playerController.TempMovementInput.x >= 0.8f && _playerController.MovementInput.x <= -0.8f))
         {
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.GROUNDSTART);
