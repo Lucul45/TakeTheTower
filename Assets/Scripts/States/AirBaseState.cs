@@ -7,12 +7,15 @@ public class AirBaseState : APlayerState
     public override void Enter()
     {
         base.Enter();
+        _playerController.CanAirDash = true;
         _playerController.JumpPressed += DoubleJump;
+        _playerController.AirDashPressed += AirDash;
     }
 
     public override void Exit()
     {
         _playerController.JumpPressed -= DoubleJump;
+        _playerController.AirDashPressed -= AirDash;
     }
 
     public override void Init(PlayerController opponent, PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController playerController, PlayerHealth playerHealth)
@@ -44,7 +47,7 @@ public class AirBaseState : APlayerState
             _playerController.IsFastFalling = false;
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.IDLE);
         }
-        else if (_playerController.MovementInput != Vector2.zero && _stateManager.EnumCurrentStateP1 != EPlayerState.AIRMOVE)
+        else if (_playerController.MovementInput != Vector2.zero && (_playerController.PlayerID == 1 ? _stateManager.EnumCurrentStateP1 : _stateManager.EnumCurrentStateP2) != EPlayerState.AIRMOVE)
         {
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.AIRMOVE);
         }
@@ -56,6 +59,14 @@ public class AirBaseState : APlayerState
         if (_playerController.CanDoubleJump)
         {
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.AIRJUMP);
+        }
+    }
+
+    private void AirDash()
+    {
+        if (_playerController.CanAirDash)
+        {
+            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.AIRDASH);
         }
     }
 }

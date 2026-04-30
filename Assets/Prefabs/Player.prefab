@@ -216,7 +216,19 @@ MonoBehaviour:
     m_ActionId: 1b40b4fe-a85e-4347-a532-b3549622adc7
     m_ActionName: Player/Dash[/Keyboard/l,/DualShock4GamepadHID/rightTrigger]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5579199154852900648}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: GetAirDashInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 42e66559-a041-411e-8d3b-2d53f86d88c4
     m_ActionName: Player/Throw
   m_NeverAutoSwitchControlSchemes: 0
@@ -291,6 +303,7 @@ MonoBehaviour:
   _dashForce: 15
   _turnaroundForce: 7
   _fallMultiplier: 40
+  _airDashForce: 20
   _playerAirForce: 50
   _maxAirSpeed: 10
   _airFriction: 5

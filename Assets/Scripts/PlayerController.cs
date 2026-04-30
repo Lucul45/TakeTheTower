@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _dashForce = 20f;
     [SerializeField] private float _turnaroundForce = 10f;
     [SerializeField] private float _fallMultiplier = 10f;
+    [SerializeField] private float _airDashForce = 15f;
     private Vector2 _movementInput = Vector2.zero;
     /// <summary>
     /// value that store a movement input to be later compared with the current movement input
@@ -55,8 +56,11 @@ public class PlayerController : MonoBehaviour
     private uint _jumpReleasedOnFrame = 0;
     [SerializeField] private bool _canDoubleJump = true;
 
+    [Header("FastFall Settings")]
     private bool _isFastFalling = false;
     private bool _fastFallInput = false;
+
+    private bool _canAirDash = false;
 
     private AttackData _currentAttack = null;
     private bool _canAttack = true;
@@ -135,6 +139,11 @@ public class PlayerController : MonoBehaviour
         get { return _isFastFalling; }
         set { _isFastFalling = value; }
     }
+    public bool CanAirDash
+    {
+        get { return _canAirDash; }
+        set { _canAirDash = value; }
+    }
     public AttackData CurrentAttack
     {
         get { return _currentAttack; }
@@ -180,6 +189,7 @@ public class PlayerController : MonoBehaviour
         }
         remove { _attackPressed -= value; }
     }
+
     private event Action _jumpPressed = null;
     public event Action JumpPressed
     {
@@ -192,6 +202,17 @@ public class PlayerController : MonoBehaviour
         {
             _jumpPressed -= value;
         }
+    }
+
+    private event Action _airDashPressed = null;
+    public event Action AirDashPressed
+    {
+        add
+        {
+            _airDashPressed -= value;
+            _airDashPressed += value;
+        }
+        remove { _airDashPressed -= value; }
     }
     #endregion Events
 
@@ -244,6 +265,14 @@ public class PlayerController : MonoBehaviour
         if (!IsGrounded() && _rb.velocity.y <= 0.5f && _fastFallInput && currentState != EPlayerState.HURT && currentState != EPlayerState.DEAD)
         {
             _isFastFalling = true;
+        }
+    }
+
+    public void GetAirDashInput(InputAction.CallbackContext context)
+    {
+        if (_airDashPressed != null && context.started)
+        {
+            _airDashPressed();
         }
     }
 
@@ -407,6 +436,12 @@ public class PlayerController : MonoBehaviour
     public void FastFall()
     {
         _rb.velocity = new Vector2(_rb.velocity.x, -1 * _fallMultiplier);
+    }
+
+    public void AirDash(Vector2 dir)
+    {
+        _rb.velocity = Vector2.zero;
+        _rb.AddForce(dir * _airDashForce, ForceMode2D.Impulse);
     }
 
     /// <summary>

@@ -54,7 +54,14 @@ public class HurtState : APlayerState
         // If the frame on the current is greater or equal than hitstun, then change state to idle
         if (StateFrame >= hitstunDuration)
         {
-            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.IDLE);
+            if (_playerController.IsGrounded())
+            {
+                _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.IDLE);
+            }
+            else
+            {
+                _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.AIRBASE);
+            }
         }
 
         _animator.SetBool("IsGrounded", _playerController.IsGrounded());

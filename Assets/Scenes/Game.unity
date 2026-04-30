@@ -5894,7 +5894,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_NeverAutoSwitchControlSchemes
@@ -5910,7 +5910,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[4].m_ActionId
-      value: 42e66559-a041-411e-8d3b-2d53f86d88c4
+      value: f0b11051-7cf9-4ba4-b6e1-ff9d06514620
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[5].m_ActionId
@@ -5926,7 +5926,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[4].m_ActionName
-      value: Player/Throw
+      value: Player/AirDash[/Keyboard/k,/mayflash limited MAYFLASH GameCube Controller
+        Adapter/button6,/mayflash limited MAYFLASH GameCube Controller Adapter1/button6,/mayflash
+        limited MAYFLASH GameCube Controller Adapter2/button6,/mayflash limited MAYFLASH
+        GameCube Controller Adapter3/button6]
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[5].m_ActionName
@@ -5946,6 +5949,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 569800628}
@@ -5959,6 +5966,10 @@ PrefabInstance:
       objectReference: {fileID: 569800628}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 569800628}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 569800628}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
@@ -5978,6 +5989,10 @@ PrefabInstance:
       value: GetFastFallInput
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GetAirDashInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: PlayerController, Assembly-CSharp
       objectReference: {fileID: 0}
@@ -5994,11 +6009,19 @@ PrefabInstance:
       value: PlayerController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1902538222313046845, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
@@ -7117,7 +7140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_NeverAutoSwitchControlSchemes
@@ -7133,7 +7156,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[4].m_ActionId
-      value: 42e66559-a041-411e-8d3b-2d53f86d88c4
+      value: f0b11051-7cf9-4ba4-b6e1-ff9d06514620
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_ActionName
@@ -7145,7 +7168,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1548162989360856272, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: m_ActionEvents.Array.data[4].m_ActionName
-      value: Player/Throw
+      value: Player/AirDash[/Keyboard/k,/mayflash limited MAYFLASH GameCube Controller
+        Adapter/button6,/mayflash limited MAYFLASH GameCube Controller Adapter1/button6,/mayflash
+        limited MAYFLASH GameCube Controller Adapter2/button6,/mayflash limited MAYFLASH
+        GameCube Controller Adapter3/button6]
       objectReference: {fileID: 0}
     - target: {fileID: 1902538222313046845, guid: a1450121f5fafe24c9c6812f2900ade1, type: 3}
       propertyPath: _dashBar

@@ -2,21 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpStartState : APlayerState
+public class AirDashState : APlayerState
 {
+
     public override void Enter()
     {
         base.Enter();
 
-        _playerController.CanAirDash = true;
-        _playerController.AirDashPressed += AirDash;
+        _playerController.IsFastFalling = false;
+        _playerController.AirDash(_playerController.MovementInput);
     }
 
     public override void Exit()
     {
-        _playerController.IsFullHop = _playerController.IsFullHopping();
-        _playerController.CanAirDash = false;
-        _playerController.AirDashPressed -= AirDash;
+        
     }
 
     public override void Init(PlayerController opponent, PlayerStateMachineManager stateManager, Animator animator, SpriteRenderer spriteRenderer, Rigidbody2D rb, PlayerController playerController, PlayerHealth playerHealth)
@@ -34,18 +33,17 @@ public class JumpStartState : APlayerState
     {
         base.Update();
 
-        if (StateFrame >= 5)
+        if (StateFrame >= 40)
         {
-            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.JUMP);
+            if (_playerController.IsGrounded())
+            {
+                _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.IDLE);
+            }
+            else
+            {
+                _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.AIRBASE);
+            }
         }
         _animator.SetBool("IsGrounded", _playerController.IsGrounded());
-    }
-
-    private void AirDash()
-    {
-        if (_playerController.CanAirDash)
-        {
-            _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.AIRDASH);
-        }
     }
 }

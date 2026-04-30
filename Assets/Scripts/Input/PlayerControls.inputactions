@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "AirDash",
+                    "type": "Button",
+                    "id": "f0b11051-7cf9-4ba4-b6e1-ff9d06514620",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -216,6 +225,39 @@
                     "processors": "",
                     "groups": "GC controller",
                     "action": "FastFall",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a38a5aef-6723-4a14-a419-a257c25f390f",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "AirDash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bf8271b5-f913-49bf-98bb-e453ae15c87b",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "AirDash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e028a5ee-c177-4708-a6fb-ee254c66e6da",
+                    "path": "<HID::mayflash limited MAYFLASH GameCube Controller Adapter>/button6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "GC controller",
+                    "action": "AirDash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
