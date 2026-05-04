@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _dashForce = 20f;
     [SerializeField] private float _turnaroundForce = 10f;
     [SerializeField] private float _fallMultiplier = 10f;
-    [SerializeField] private float _airDashForce = 15f;
     private Vector2 _movementInput = Vector2.zero;
     /// <summary>
     /// value that store a movement input to be later compared with the current movement input
@@ -60,7 +59,14 @@ public class PlayerController : MonoBehaviour
     private bool _isFastFalling = false;
     private bool _fastFallInput = false;
 
+    [Header("WaveDash Settings")]
+    [SerializeField] private float _wavedashFriction = 15f;
+    [SerializeField] private float _wavedashLength = 18f;
+
+    [Header("AirDash Settings")]
+    [SerializeField] private float _airDashForce = 15f;
     private bool _canAirDash = false;
+    private bool _airDashUsed = false;
 
     private AttackData _currentAttack = null;
     private bool _canAttack = true;
@@ -139,10 +145,19 @@ public class PlayerController : MonoBehaviour
         get { return _isFastFalling; }
         set { _isFastFalling = value; }
     }
+    public float WavedashLength
+    {
+        get { return _wavedashLength; }
+    }
     public bool CanAirDash
     {
         get { return _canAirDash; }
         set { _canAirDash = value; }
+    }
+    public bool AirDashUsed
+    {
+        get { return _airDashUsed; }
+        set { _airDashUsed = value; }
     }
     public AttackData CurrentAttack
     {
@@ -422,6 +437,13 @@ public class PlayerController : MonoBehaviour
         _rb.velocity = new Vector2(frictionX, _rb.velocity.y);
     }
 
+    public void WaveDashFriction()
+    {
+        // On ramène progressivement la vitesse X vers 0
+        float frictionX = Mathf.MoveTowards(_rb.velocity.x, 0, _wavedashFriction * Time.deltaTime);
+        _rb.velocity = new Vector2(frictionX, _rb.velocity.y);
+    }
+
     public void Jump(float jumpForce)
     {
         _rb.AddForce(new Vector2(0, Vector2.up.y * jumpForce), ForceMode2D.Impulse);
@@ -441,6 +463,14 @@ public class PlayerController : MonoBehaviour
     public void AirDash(Vector2 dir)
     {
         _rb.velocity = Vector2.zero;
+
+        // Si on est au sol (Jumpsquat), on se décolle d'un pixel pour éviter 
+        // que le moteur physique nous freine à cause de la friction
+        if (IsGrounded())
+        {
+            transform.position += new Vector3(0, 0.1f, 0);
+        }
+
         _rb.AddForce(dir * _airDashForce, ForceMode2D.Impulse);
     }
 

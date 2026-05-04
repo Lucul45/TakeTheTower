@@ -64,7 +64,7 @@ public class AirBaseState : APlayerState
 
     private void AirDash()
     {
-        if (_playerController.CanAirDash)
+        if (_playerController.CanAirDash && !_playerController.AirDashUsed)
         {
             _stateManager.ChangeState(_playerController.PlayerID, EPlayerState.AIRDASH);
         }

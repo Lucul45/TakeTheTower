@@ -21,6 +21,7 @@ public enum EPlayerState
     AIRMOVE,
     AIRJUMP,
     AIRDASH,
+    WAVEDASH,
     JAB,
     HURT,
     DEAD,
@@ -123,6 +124,7 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         _statesP1.Add(EPlayerState.AIRMOVE, new AirMoveState());
         _statesP1.Add(EPlayerState.AIRJUMP, new AirJumpState());
         _statesP1.Add(EPlayerState.AIRDASH, new AirDashState());
+        _statesP1.Add(EPlayerState.WAVEDASH, new WaveDashState());
         _statesP1.Add(EPlayerState.JAB, new JabState());
         _statesP1.Add(EPlayerState.HURT, new HurtState());
         _statesP1.Add(EPlayerState.DEAD, new DeadState());
@@ -140,6 +142,7 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         _statesP2.Add(EPlayerState.AIRMOVE, new AirMoveState());
         _statesP2.Add(EPlayerState.AIRJUMP, new AirJumpState());
         _statesP2.Add(EPlayerState.AIRDASH, new  AirDashState());
+        _statesP2.Add(EPlayerState.WAVEDASH, new WaveDashState());
         _statesP2.Add(EPlayerState.JAB, new JabState());
         _statesP2.Add(EPlayerState.HURT, new HurtState());
         _statesP2.Add(EPlayerState.DEAD, new DeadState());

@@ -12,6 +12,7 @@ public class IdleState : APlayerState
         _playerController.AttackPressed += Attack;
         _playerController.CanDoubleJump = true;
         _playerController.CanAirDash = false;
+        _playerController.AirDashUsed = false;
     }
 
     public override void Exit()
