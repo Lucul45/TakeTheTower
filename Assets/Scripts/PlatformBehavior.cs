@@ -22,6 +22,7 @@ public class PlatformBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         int mask = 0;
 
         if (player1.IsLookingDown())
@@ -34,5 +35,6 @@ public class PlatformBehavior : MonoBehaviour
         }
 
         _effector.colliderMask = mask;
+        */
     }
 }

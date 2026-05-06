@@ -181,6 +181,7 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
         };
         CurrentStateP1.Update();
         CurrentStateP2.Update();
+        // communicate the movement input to the animator
         _players[0].Animator.SetFloat("MovementInput", _players[0].MovementInput.x);
         _players[1].Animator.SetFloat("MovementInput", _players[1].MovementInput.x);
         // Add a new frame data to the dictionary
@@ -199,7 +200,7 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
             CurrentStateP1.Exit();
             _lastStateP1 = _currentStateP1;
 
-            // NOUVEAU : On nettoie les anciennes frames au moment où P1 lance une nouvelle attaque
+            // We clear the old frames when P1 launches a new attack
             if (nextState == EPlayerState.JAB)
             {
                 _lastAttackToIdleFrameP1 = 0;
@@ -225,7 +226,7 @@ public class PlayerStateMachineManager : Singleton<PlayerStateMachineManager>
             CurrentStateP2.Exit();
             _lastStateP2 = _currentStateP2;
 
-            // NOUVEAU : Pareil pour P2 s'il attaque
+            // We clear the old frames when P2 launches a new attack
             if (nextState == EPlayerState.JAB)
             {
                 _lastAttackToIdleFrameP2 = 0;

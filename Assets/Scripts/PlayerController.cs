@@ -39,9 +39,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _maxDIAngle = 18f; // max deviation in degrees
 
     [Header("Wall Bounce Settings")]
-    [SerializeField] private float _minBounceVelocity = 5f; // Vitesse minimum pour rebondir
-    [SerializeField] private float _bounciness = 0.8f;      // 1 = garde toute sa vitesse, 0.5 = perd la moitié
-    [SerializeField] private LayerMask _wallLayer;          // Pour être sûr de ne rebondir que sur les murs
+    [SerializeField] private float _minBounceVelocity = 5f; // Min speed to bounce
+    [SerializeField] private float _bounciness = 0.8f;      // 1 = keep all speed, 0.5 = lose half speed
+    [SerializeField] private LayerMask _wallLayer;
     private bool _isNextToWall = false;
 
     [Header("Jump Settings")]
@@ -304,19 +304,19 @@ public class PlayerController : MonoBehaviour
         else if (PlayerID == 2) 
             currentState = PlayerStateMachineManager.Instance.EnumCurrentStateP2;
 
-        // 1. Vérification du Layer et de l'état
+        // layer and state check
         if (((1 << collision.gameObject.layer) & _wallLayer) != 0 && currentState == EPlayerState.HURT)
         {
-            // 2. On utilise relativeVelocity pour avoir la vitesse réelle de l'impact
-            // On prend la magnitude (longueur du vecteur) pour tester la force
+            // we use relativeVelocity to have the real impact speed
+            // We take the magnitude to test the force
             float impactSpeed = collision.relativeVelocity.magnitude;
 
             if (impactSpeed > _minBounceVelocity)
             {
-                // On récupère la normale pour le rebond
+                // we take the normal
                 Vector2 normal = collision.contacts[0].normal;
 
-                // On passe la vitesse d'impact à Bounce pour reconstruire le vecteur
+                // we reconstruct the vector by passing by Bouce()
                 Bounce(normal, collision.relativeVelocity);
                 _isNextToWall = false;
             }
@@ -343,19 +343,19 @@ public class PlayerController : MonoBehaviour
             else if (PlayerID == 2)
                 currentState = PlayerStateMachineManager.Instance.EnumCurrentStateP2;
 
-            // 1. Vérification du Layer et de l'état
+            // layer and state check
             if (((1 << collision.gameObject.layer) & _wallLayer) != 0 && currentState == EPlayerState.HURT)
             {
-                // 2. On utilise relativeVelocity pour avoir la vitesse réelle de l'impact
-                // On prend la magnitude (longueur du vecteur) pour tester la force
+                // we use relativeVelocity to have the real impact speed
+                // We take the magnitude to test the force
                 float impactSpeed = collision.relativeVelocity.magnitude;
 
                 if (impactSpeed > _minBounceVelocity)
                 {
-                    // On récupère la normale pour le rebond
+                    // we take the normal
                     Vector2 normal = collision.contacts[0].normal;
 
-                    // On passe la vitesse d'impact à Bounce pour reconstruire le vecteur
+                    // we reconstruct the vector by passing by Bouce()
                     Bounce(normal, collision.relativeVelocity);
                     _isNextToWall = false;
                 }
@@ -383,8 +383,7 @@ public class PlayerController : MonoBehaviour
 
     public bool IsFacingRight()
     {
-        // transform.right.x vaut 1 si le perso regarde à droite, et -1 s'il regarde à gauche.
-        // Ça marchera toujours, peu importe si l'angle est 0, 360 ou 720.
+        // transform.right.x = 1 if the character faces right, and = -1 if it faces left
         return transform.right.x > 0;
     }
 
@@ -439,7 +438,7 @@ public class PlayerController : MonoBehaviour
 
     public void WaveDashFriction()
     {
-        // On ramène progressivement la vitesse X vers 0
+        // we gradually bring back the x speed to 0
         float frictionX = Mathf.MoveTowards(_rb.velocity.x, 0, _wavedashFriction * Time.deltaTime);
         _rb.velocity = new Vector2(frictionX, _rb.velocity.y);
     }
@@ -464,8 +463,7 @@ public class PlayerController : MonoBehaviour
     {
         _rb.velocity = Vector2.zero;
 
-        // Si on est au sol (Jumpsquat), on se décolle d'un pixel pour éviter 
-        // que le moteur physique nous freine à cause de la friction
+        // If you're on the ground (JumpStartState), you lift yourself up by one pixel to prevent the physics engine from slowing you down due to friction
         if (IsGrounded())
         {
             transform.position += new Vector3(0, 0.1f, 0);
@@ -555,13 +553,13 @@ public class PlayerController : MonoBehaviour
 
     private void Bounce(Vector2 wallNormal, Vector2 incomingVelocity)
     {
-        // Calcul de la réflexion basée sur la vitesse avant impact
+        // Calculation of reflection based on pre-impact velocity
         Vector2 reflectedVelocity = Vector2.Reflect(incomingVelocity, wallNormal);
 
-        // On applique le rebond (on inverse car relativeVelocity est opposée à notre mouvement)
+        // We apply the rebound (we reverse it because relativeVelocity is opposite to our motion)
         _rb.velocity = -reflectedVelocity * _bounciness;
 
         ReverseRotation();
-        Debug.Log("BOUNCE REUSSI !");
+        Debug.Log("BOUNCE DONE !");
     }
 }

@@ -7,13 +7,17 @@ public class PhysicsCollisions : Singleton<PhysicsCollisions>
     // Start is called before the first frame update
     void Start()
     {
+        // players can't collide
         Physics2D.IgnoreLayerCollision(6, 7, true);
+        // Attack 1 and Tower 1 can't collide
         Physics2D.IgnoreLayerCollision(8, 10, true);
+        // Attack 2 and Tower 2 can't collide
         Physics2D.IgnoreLayerCollision(9, 11, true);
     }
 
     public void DeadCollisions(int playerIndex)
     {
+        // player 1 or 2 can't collide with Tower1, Tower2, Attack 1, Attack 2
         if (playerIndex == 1)
         {
             Physics2D.IgnoreLayerCollision(6, 8, true);
@@ -32,6 +36,7 @@ public class PhysicsCollisions : Singleton<PhysicsCollisions>
 
     public void AliveCollisions(int playerIndex)
     {
+        // player 1 or 2 can collide with Default, Tower1, Tower2, Attack 1, Attack 2, LD
         if (playerIndex == 1)
         {
             Physics2D.IgnoreLayerCollision(6, 0, false);
